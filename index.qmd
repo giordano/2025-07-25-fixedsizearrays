@@ -10,6 +10,7 @@ author:
 format:
   revealjs:
     code-copy: true
+    code-line-numbers: false
     hash-type: number
     history: false
     link-external-icon: true
@@ -61,31 +62,28 @@ code_llvm(() -> get_len(FixedSizeVector{Float64}(undef, 3)), (); debuginfo=:none
 
 ```{julia}
 #| echo: true
-#| code-line-numbers: "false"
+#| 
 
 using FixedSizeArrays
 
-@noinline res(v::AbstractVector{Float64}) = reshape(v, 2, 2)
+@noinline reshape_2_2(v::AbstractVector{Float64}) = reshape(v, 2, 2)
 
-Base.infer_effects(() -> res(Vector{Float64}(undef, 3)), ())
+Base.infer_effects(() -> reshape_2_2(Vector{Float64}(undef, 3)), ())
 ```
 ```{julia}
 #| echo: true
-#| code-line-numbers: "false"
 
-Base.infer_effects(() -> res(Vector{Float64}(undef, 4)), ())
+Base.infer_effects(() -> reshape_2_2(Vector{Float64}(undef, 4)), ())
 ```
 ```{julia}
 #| echo: true
-#| code-line-numbers: "false"
 
-Base.infer_effects(() -> res(FixedSizeVector{Float64}(undef, 3)), ())
+Base.infer_effects(() -> reshape_2_2(FixedSizeVector{Float64}(undef, 3)), ())
 ```
 ```{julia}
 #| echo: true
-#| code-line-numbers: "false"
 
-Base.infer_effects(() -> res(FixedSizeVector{Float64}(undef, 4)), ())
+Base.infer_effects(() -> reshape_2_2(FixedSizeVector{Float64}(undef, 4)), ())
 ```
 
 ## Show off: Eliding memory allocations
