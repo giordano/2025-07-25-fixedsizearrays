@@ -27,7 +27,12 @@ engine: julia
 
 ## Motivation
 
-* ...
+...
+
+## ...
+
+...
+
 
 ## Comparison with other array types
 
@@ -134,12 +139,9 @@ julia> @btime gradient(Forward, g, x, y) setup=(x = FixedSizeArray(randn(3)); y 
   487.737 ns (20 allocations: 880 bytes)
 ```
 
-## Future improvements (?)
-
-* ...
-
 ## Conclusions
 
+* Future improvements...
 * ...
 
 <!-- Local Variables: -->
