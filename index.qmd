@@ -41,6 +41,13 @@ engine: julia
 ## Show off: Constprop of length{.scrollable}
 
 ```{julia}
+# Light black is unreadable in dark mode, replace it with a different colour.
+
+Base.text_colors[:light_black] = Base.text_colors[:light_white]
+nothing
+```
+
+```{julia}
 #| echo: true
 
 using FixedSizeArrays
