@@ -19,7 +19,7 @@ format:
       useTextContentForMissingTitles: false
     preview-links: true
     slide-number: true
-    theme: moon
+    theme: [moon, custom.scss]
     transition: fade
 date: 2025-07-25
 engine: julia
