@@ -37,58 +37,55 @@ engine: julia
 | `MArray`         | compile time   | `Tuple`      | ❌       | ✅               |
 | `SArray`         | compile time   | `Tuple`      | ❌       | ❌               |
 
-## Show off: Constprop of length
+## Show off: Constprop of length{.scrollable}
 
 ```{julia}
 #| echo: true
 
 using FixedSizeArrays
 
-@noinline f(A::AbstractArray) = length(A)
-g() = f(FixedSizeVector{Float64}(undef, 3))
+@noinline get_len(A::AbstractArray) = length(A)
 
-code_llvm(g, (); debuginfo=:none)
+code_llvm(() -> get_len(Vector{Float64}(undef, 3)), (); debuginfo=:none)
 ```
 
-## Show off: Constprop of length{.scrollable}
+## Show off: Constprop of length
 
 ```{julia}
 #| echo: true
 
-h() = f(Vector{Float64}(undef, 3))
-code_llvm(h, (); debuginfo=:none)
+code_llvm(() -> get_len(FixedSizeVector{Float64}(undef, 3)), (); debuginfo=:none)
 ```
 
 ## Show off: Better effects inference
 
 ```{julia}
 #| echo: true
+#| code-line-numbers: "false"
 
 using FixedSizeArrays
 
 @noinline res(v::AbstractVector{Float64}) = reshape(v, 2, 2)
 
-res_v_3() = res(Vector{Float64}(undef, 3))
-res_v_4() = res(Vector{Float64}(undef, 4));
+Base.infer_effects(() -> res(Vector{Float64}(undef, 3)), ())
+```
+```{julia}
+#| echo: true
+#| code-line-numbers: "false"
 
-res_fsv_3() = res(FixedSizeVector{Float64}(undef, 3))
-res_fsv_4() = res(FixedSizeVector{Float64}(undef, 4))
+Base.infer_effects(() -> res(Vector{Float64}(undef, 4)), ())
 ```
 ```{julia}
 #| echo: true
-Base.infer_effects(res_v_3, ())
+#| code-line-numbers: "false"
+
+Base.infer_effects(() -> res(FixedSizeVector{Float64}(undef, 3)), ())
 ```
 ```{julia}
 #| echo: true
-Base.infer_effects(res_v_4, ())
-```
-```{julia}
-#| echo: true
-Base.infer_effects(res_fsv_3, ())
-```
-```{julia}
-#| echo: true
-Base.infer_effects(res_fsv_4, ())
+#| code-line-numbers: "false"
+
+Base.infer_effects(() -> res(FixedSizeVector{Float64}(undef, 4)), ())
 ```
 
 ## Show off: Eliding memory allocations
