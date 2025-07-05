@@ -1,0 +1,78 @@
+---
+title: "`FixedSizeArrays.jl`"
+subtitle: "What `Array` probably should have been"
+author:
+  - name: "Mosè Giordano"
+    affiliation: "UCL"
+  - name: "Oscar Smith"
+    affiliation: "JuliaHub"
+  - name: "Neven Sajko"
+format:
+  revealjs:
+    code-copy: true
+    hash-type: number
+    history: false
+    link-external-icon: true
+    menu:
+      hideMissingTitles: true
+      useTextContentForMissingTitles: false
+    preview-links: true
+    slide-number: true
+    theme: moon
+    transition: fade
+date: 2025-07-25
+engine: julia
+---
+
+## Motivation
+
+* ...
+
+## Comparison with other array types
+
+|                  | Size set at... | Data backend | Growable | Mutable elements |
+|------------------|----------------|--------------|----------|------------------|
+| `Base.Array`     | runtime        | `Memory`     | ✅       | ✅               |
+| `FixedSizeArray` | runtime        | `Memory`     | ❌       | ✅               |
+| `MArray`         | compile time   | `Tuple`      | ❌       | ✅               |
+| `SArray`         | compile time   | `Tuple`      | ❌       | ❌               |
+
+## Performance show off: Eliding memory allocations
+
+```{julia}
+#| echo: true
+
+using FixedSizeArrays, Random
+function g(T)
+    v = T(undef, 250)
+    rand!(v)
+    return foldl(+, v)
+end
+@info "Vector" allocations=@allocated g(Vector{Float64})
+@info "FixedSizeVector" allocations=@allocated g(FixedSizeVectorDefault{Float64})
+```
+
+## Performance show off: Enzyme
+
+```{.julia code-line-numbers="false"}
+julia> using BenchmarkTools, FixedSizeArrays, Enzyme
+
+julia> function g(x::AbstractVector{T}, y::AbstractVector{T}) where {T}
+           sum = zero(float(T))
+           for idx in eachindex(x, y)
+               sum += sin(x[idx]) ^ 2 + cos(y[idx]) ^ 2
+           end
+           return sum
+       end
+g (generic function with 1 method)
+
+julia> @btime gradient(Forward, g, x, y) setup=(x = randn(3); y = randn(3));
+  753.210 ns (28 allocations: 1.09 KiB)
+
+julia> @btime gradient(Forward, g, x, y) setup=(x = FixedSizeArray(randn(3)); y = FixedSizeArray(randn(3)));
+  487.737 ns (20 allocations: 880 bytes)
+```
+
+<!-- Local Variables: -->
+<!-- mode: markdown -->
+<!-- End: -->
