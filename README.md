@@ -1,5 +1,7 @@
 # JuliaCon 2025 presentation about FixedSizeArrays
 
+Presentation for [talk](https://pretalx.com/juliacon-2025/talk/J3J7U8/) about [FixedSizeArrays.jl](https://github.com/JuliaArrays/FixedSizeArrays.jl) at JuliaCon 2025.
+
 ## Rendering
 
 Install dependencies with

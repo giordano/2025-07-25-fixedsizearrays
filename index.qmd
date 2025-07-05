@@ -37,22 +37,81 @@ engine: julia
 | `MArray`         | compile time   | `Tuple`      | ❌       | ✅               |
 | `SArray`         | compile time   | `Tuple`      | ❌       | ❌               |
 
-## Performance show off: Eliding memory allocations
+## Show off: Constprop of length
+
+```{julia}
+#| echo: true
+
+using FixedSizeArrays
+
+@noinline f(A::AbstractArray) = length(A)
+g() = f(FixedSizeVector{Float64}(undef, 3))
+
+code_llvm(g, (); debuginfo=:none)
+```
+
+## Show off: Constprop of length{.scrollable}
+
+```{julia}
+#| echo: true
+
+h() = f(Vector{Float64}(undef, 3))
+code_llvm(h, (); debuginfo=:none)
+```
+
+## Show off: Better effects inference
+
+```{julia}
+#| echo: true
+
+using FixedSizeArrays
+
+@noinline res(v::AbstractVector{Float64}) = reshape(v, 2, 2)
+
+res_v_3() = res(Vector{Float64}(undef, 3))
+res_v_4() = res(Vector{Float64}(undef, 4));
+
+res_fsv_3() = res(FixedSizeVector{Float64}(undef, 3))
+res_fsv_4() = res(FixedSizeVector{Float64}(undef, 4))
+```
+```{julia}
+#| echo: true
+Base.infer_effects(res_v_3, ())
+```
+```{julia}
+#| echo: true
+Base.infer_effects(res_v_4, ())
+```
+```{julia}
+#| echo: true
+Base.infer_effects(res_fsv_3, ())
+```
+```{julia}
+#| echo: true
+Base.infer_effects(res_fsv_4, ())
+```
+
+## Show off: Eliding memory allocations
 
 ```{julia}
 #| echo: true
 
 using FixedSizeArrays, Random
+
 function g(T)
     v = T(undef, 250)
     rand!(v)
     return foldl(+, v)
 end
+
 @info "Vector" allocations=@allocated g(Vector{Float64})
 @info "FixedSizeVector" allocations=@allocated g(FixedSizeVectorDefault{Float64})
 ```
 
-## Performance show off: Enzyme
+## Show off: Enzyme
+
+<!-- This requires Julia v1.11, can't be done on nightly because Enzyme is -->
+<!-- broken, so we have to use a non-executable block of code. -->
 
 ```{.julia code-line-numbers="false"}
 julia> using BenchmarkTools, FixedSizeArrays, Enzyme
@@ -72,6 +131,14 @@ julia> @btime gradient(Forward, g, x, y) setup=(x = randn(3); y = randn(3));
 julia> @btime gradient(Forward, g, x, y) setup=(x = FixedSizeArray(randn(3)); y = FixedSizeArray(randn(3)));
   487.737 ns (20 allocations: 880 bytes)
 ```
+
+## Future improvements (?)
+
+* ...
+
+## Conclusions
+
+* ...
 
 <!-- Local Variables: -->
 <!-- mode: markdown -->
