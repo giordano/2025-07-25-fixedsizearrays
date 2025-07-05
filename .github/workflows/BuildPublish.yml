@@ -51,6 +51,12 @@ jobs:
         using quarto_jll: quarto
         run(`$(quarto()) render index.qmd`)
 
+    - name: Configure Git
+      if: github.event_name != 'pull_request'
+      run: |
+        git config user.name "${{github.actor}}"
+        git config user.email "${{github.actor_id}}+${{github.actor}}@users.noreply.github.com"
+
     - name: Publish website
       shell: julia --color=yes --project {0}
       if: github.event_name != 'pull_request'
