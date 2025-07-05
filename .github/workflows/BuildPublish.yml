@@ -1,0 +1,56 @@
+name: Build and Publish
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/BuildPublish.yml'
+      - 'Project.toml'
+      - 'custom.scss'
+      - 'index.qmd'
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/BuildPublish.yml'
+      - 'Project.toml'
+      - 'custom.scss'
+      - 'index.qmd'
+
+concurrency:
+  # Skip intermediate builds: all builds except for builds on the `main` branch
+  # Cancel intermediate builds: only pull request builds
+  group: ${{ github.workflow }}-${{ github.ref }}-${{ github.ref != 'refs/heads/main' || github.run_number }}
+  cancel-in-progress: ${{ startsWith(github.ref, 'refs/pull/') }}
+
+jobs:
+  build-publish:
+    timeout-minutes: 20
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - uses: julia-actions/setup-julia@v2
+      with:
+        version: nightly
+    - uses: julia-actions/cache@v2
+
+    - name: Install dependencies
+      shell: julia --color=yes --project {0}
+      run: |
+        using Pkg: Pkg
+        Pkg.instantiate()
+
+    - name: Render presentation
+      shell: julia --color=yes --project {0}
+      run: |
+        using quarto_jll: quarto
+        run(`$(quarto()) render index.qmd`)
+
+    - name: Publish website
+      shell: julia --color=yes --project {0}
+      if: github.event_name != 'pull_request'
+      run: |
+        using quarto_jll: quarto
+        run(`$(quarto()) publish`)
