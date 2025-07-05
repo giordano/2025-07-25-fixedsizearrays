@@ -54,3 +54,5 @@ jobs:
       run: |
         using quarto_jll: quarto
         run(`$(quarto()) publish`)
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
