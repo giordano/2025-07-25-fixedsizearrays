@@ -26,6 +26,9 @@ jobs:
   build-publish:
     timeout-minutes: 20
 
+    permissions:
+      contents: write
+
     runs-on: ubuntu-latest
 
     steps:
@@ -46,6 +49,8 @@ jobs:
         Pkg.instantiate()
 
     - name: Render presentation
+      # Presentation will be rendered when publishing, no need to do it twice.
+      if: github.event_name == 'pull_request'
       shell: julia --color=yes --project {0}
       run: |
         using quarto_jll: quarto
@@ -57,7 +62,7 @@ jobs:
         git config user.name "${{github.actor}}"
         git config user.email "${{github.actor_id}}+${{github.actor}}@users.noreply.github.com"
 
-    - name: Publish website
+    - name: Render and publish presentation
       shell: julia --color=yes --project {0}
       if: github.event_name != 'pull_request'
       run: |
