@@ -67,7 +67,7 @@ jobs:
       if: github.event_name != 'pull_request'
       run: |
         using quarto_jll: quarto
-        run(`$(quarto()) publish --no-prompt --no-browser gh-pages`)
+        run(`$(quarto()) publish --no-prompt --no-browser gh-pages index.qmd`)
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
