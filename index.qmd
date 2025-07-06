@@ -114,7 +114,7 @@ end
 @info "FixedSizeVector" allocations=@allocated g(FixedSizeVectorDefault{Float64})
 ```
 
-## Show off: Enzyme
+## Show off: Faster gradient with Enzyme
 
 <!-- This requires Julia v1.11, can't be done on nightly because Enzyme is -->
 <!-- broken, so we have to use a non-executable block of code. -->
