@@ -67,7 +67,7 @@ end
 
 # Show off
 
-## Fewer allocations{.scrollable}
+## Fewer allocations
 
 ```{julia}
 #| echo: true
