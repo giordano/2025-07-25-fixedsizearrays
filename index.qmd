@@ -25,6 +25,8 @@ date: 2025-07-25
 engine: julia
 ---
 
+{{< include qr-code.qmd >}}
+
 # Introduction
 
 ## Motivation

@@ -1,0 +1,14 @@
+# {data-menu-title="QR Code"}
+
+::: {layout="[22,78]"}
+
+QR code to see this presentation
+
+{{< qrcode "https://giordano.github.io/2025-07-25-fixedsizearrays/"
+colorDark="#ffffff" colorLight="#000000" height=550 width=550 >}}
+
+:::
+
+<!-- Local Variables: -->
+<!-- mode: markdown -->
+<!-- End: -->
