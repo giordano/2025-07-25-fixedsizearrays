@@ -25,6 +25,8 @@ date: 2025-07-25
 engine: julia
 ---
 
+# Introduction
+
 ## Motivation
 
 ...
@@ -43,7 +45,9 @@ engine: julia
 | `MArray`         | compile time   | `Tuple`      | ❌       | ✅               |
 | `SArray`         | compile time   | `Tuple`      | ❌       | ❌               |
 
-## Show off: Constprop of length{.scrollable}
+# Show off
+
+## Constprop of length{.scrollable}
 
 ```{julia}
 # Light black is unreadable in dark mode, replace it with a different colour.
@@ -62,7 +66,7 @@ using FixedSizeArrays
 code_llvm(() -> get_len(Vector{Float64}(undef, 3)), (); debuginfo=:none)
 ```
 
-## Show off: Constprop of length
+## Constprop of length (cont.)
 
 ```{julia}
 #| echo: true
@@ -70,7 +74,7 @@ code_llvm(() -> get_len(Vector{Float64}(undef, 3)), (); debuginfo=:none)
 code_llvm(() -> get_len(FixedSizeVector{Float64}(undef, 3)), (); debuginfo=:none)
 ```
 
-## Show off: Better effects inference
+## Better effects inference
 
 ```{julia}
 #| echo: true
@@ -97,7 +101,7 @@ Base.infer_effects(() -> reshape_2_2(Vector{Float64}(undef, 4)), ())
 Base.infer_effects(() -> reshape_2_2(FixedSizeVector{Float64}(undef, 4)), ())
 ```
 
-## Show off: Eliding memory allocations
+## Eliding memory allocations
 
 ```{julia}
 #| echo: true
@@ -114,7 +118,7 @@ end
 @info "FixedSizeVector" allocations=@allocated g(FixedSizeVectorDefault{Float64})
 ```
 
-## Show off: Faster gradient with Enzyme
+## Faster gradient with Enzyme
 
 <!-- This requires Julia v1.11, can't be done on nightly because Enzyme is -->
 <!-- broken, so we have to use a non-executable block of code. -->
@@ -138,7 +142,7 @@ julia> @btime gradient(Forward, g, x, y) setup=(x = FixedSizeArray(randn(3)); y 
   487.737 ns (20 allocations: 880 bytes)
 ```
 
-## Conclusions
+# Conclusions
 
 * Future improvements...
 * ...
