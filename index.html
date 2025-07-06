@@ -225,9 +225,24 @@ Neven Sajko
 
   <p class="date">2025-07-25</p>
 </section>
+<section>
+<section class="title-slide slide level1 center">
+<h1>Introduction</h1>
+
+</section>
 <section class="slide level2">
 <h2>Motivation</h2>
 <p>…</p>
+</section>
+<section class="slide level2">
+<h2>Implementation</h2>
+<div class="sourceCode" id="cb1" data-code-line-numbers="|1|2|3"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href=""></a><span class="kw">struct</span> FixedSizeArray{T,N,Mem<span class="op">&lt;:</span><span class="dt">DenseVector{T}</span>} <span class="op">&lt;:</span><span class="dt"> DenseArray{T,N}</span></span>
+<span id="cb1-2"><a href=""></a>    mem<span class="op">::</span><span class="dt">Mem</span></span>
+<span id="cb1-3"><a href=""></a>    size<span class="op">::</span><span class="dt">NTuple{N,Int}</span></span>
+<span id="cb1-4"><a href=""></a>    <span class="kw">global</span> <span class="kw">function</span> <span class="fu">new_fixed_size_array</span>(mem<span class="op">::</span><span class="dt">DenseVector{T}</span>, size<span class="op">::</span><span class="dt">NTuple{N,Int}</span>) <span class="kw">where</span> {T,N}</span>
+<span id="cb1-5"><a href=""></a>        <span class="fu">new</span><span class="dt">{T,N,typeof(mem)}</span>(mem, size)</span>
+<span id="cb1-6"><a href=""></a>    <span class="kw">end</span></span>
+<span id="cb1-7"><a href=""></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section class="slide level2">
 <h2>…</h2>
@@ -283,15 +298,20 @@ Neven Sajko
 </tr>
 </tbody>
 </table>
+</section></section>
+<section>
+<section class="title-slide slide level1 center">
+<h1>Show off</h1>
+
 </section>
 <section class="slide level2 scrollable">
-<h2>Show off: Constprop of length</h2>
+<h2>Constprop of length</h2>
 <div id="4" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">FixedSizeArrays</span></span>
-<span id="cb1-2"><a href="" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="pp">@noinline</span> <span class="fu">get_len</span>(A<span class="op">::</span><span class="dt">AbstractArray</span>) <span class="op">=</span> <span class="fu">length</span>(A)</span>
-<span id="cb1-4"><a href="" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">code_llvm</span>(() <span class="op">-&gt;</span> <span class="fu">get_len</span>(<span class="fu">Vector</span><span class="dt">{Float64}</span>(<span class="cn">undef</span>, <span class="fl">3</span>)), (); debuginfo<span class="op">=:</span>none)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">FixedSizeArrays</span></span>
+<span id="cb2-2"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="pp">@noinline</span> <span class="fu">get_len</span>(A<span class="op">::</span><span class="dt">AbstractArray</span>) <span class="op">=</span> <span class="fu">length</span>(A)</span>
+<span id="cb2-4"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">code_llvm</span>(() <span class="op">-&gt;</span> <span class="fu">get_len</span>(<span class="fu">Vector</span><span class="dt">{Float64}</span>(<span class="cn">undef</span>, <span class="fl">3</span>)), (); debuginfo<span class="op">=:</span>none)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <div class="ansi-escaped-output">
 <pre><span class="ansi-bright-white-fg">; Function Signature: var"#2"()</span>
@@ -309,9 +329,9 @@ Neven Sajko
   <span class="ansi-bright-cyan-fg ansi-bold">store</span> <span class="ansi-bright-magenta-fg">ptr</span> %gcframe1, <span class="ansi-bright-magenta-fg">ptr</span> %tls_pgcstack, <span class="ansi-bright-magenta-fg">align</span> <span class="ansi-yellow-fg">8</span>
   %ptls_field = <span class="ansi-bright-cyan-fg ansi-bold">getelementptr</span> <span class="ansi-bright-magenta-fg">inbounds</span> <span class="ansi-bright-magenta-fg">nuw</span> <span class="ansi-cyan-fg">i8</span>, <span class="ansi-bright-magenta-fg">ptr</span> %tls_pgcstack, <span class="ansi-cyan-fg">i64</span> <span class="ansi-yellow-fg">16</span>
   %ptls_load = <span class="ansi-bright-cyan-fg ansi-bold">load</span> <span class="ansi-bright-magenta-fg">ptr</span>, <span class="ansi-bright-magenta-fg">ptr</span> %ptls_field, <span class="ansi-bright-magenta-fg">align</span> <span class="ansi-yellow-fg">8</span>
-  %"Memory{Float64}[]" = <span class="ansi-bright-cyan-fg ansi-bold">call</span> <span class="ansi-bright-magenta-fg">noalias</span> <span class="ansi-bright-magenta-fg">nonnull</span> <span class="ansi-bright-magenta-fg">align</span> <span class="ansi-yellow-fg">8</span> <span class="ansi-bright-magenta-fg">dereferenceable</span><span class="ansi-yellow-fg">(</span><span class="ansi-yellow-fg">48</span><span class="ansi-yellow-fg">)</span> <span class="ansi-bright-magenta-fg">ptr</span> <span class="ansi-bright-yellow-fg">@ijl_gc_small_alloc</span><span class="ansi-yellow-fg">(</span><span class="ansi-bright-magenta-fg">ptr</span> %ptls_load, <span class="ansi-cyan-fg">i32</span> <span class="ansi-yellow-fg">456</span>, <span class="ansi-cyan-fg">i32</span> <span class="ansi-yellow-fg">48</span>, <span class="ansi-cyan-fg">i64</span> <span class="ansi-yellow-fg">139856430455200</span><span class="ansi-yellow-fg">)</span> #7
+  %"Memory{Float64}[]" = <span class="ansi-bright-cyan-fg ansi-bold">call</span> <span class="ansi-bright-magenta-fg">noalias</span> <span class="ansi-bright-magenta-fg">nonnull</span> <span class="ansi-bright-magenta-fg">align</span> <span class="ansi-yellow-fg">8</span> <span class="ansi-bright-magenta-fg">dereferenceable</span><span class="ansi-yellow-fg">(</span><span class="ansi-yellow-fg">48</span><span class="ansi-yellow-fg">)</span> <span class="ansi-bright-magenta-fg">ptr</span> <span class="ansi-bright-yellow-fg">@ijl_gc_small_alloc</span><span class="ansi-yellow-fg">(</span><span class="ansi-bright-magenta-fg">ptr</span> %ptls_load, <span class="ansi-cyan-fg">i32</span> <span class="ansi-yellow-fg">456</span>, <span class="ansi-cyan-fg">i32</span> <span class="ansi-yellow-fg">48</span>, <span class="ansi-cyan-fg">i64</span> <span class="ansi-yellow-fg">139915729525152</span><span class="ansi-yellow-fg">)</span> #7
   %"Memory{Float64}[].tag_addr" = <span class="ansi-bright-cyan-fg ansi-bold">getelementptr</span> <span class="ansi-bright-magenta-fg">inbounds</span> <span class="ansi-cyan-fg">i8</span>, <span class="ansi-bright-magenta-fg">ptr</span> %"Memory<span class="ansi-yellow-fg">{</span>Float64<span class="ansi-yellow-fg">}</span><span class="ansi-yellow-fg">[</span><span class="ansi-yellow-fg">]</span>", <span class="ansi-cyan-fg">i64</span> <span class="ansi-yellow-fg">-8</span>
-  <span class="ansi-bright-cyan-fg ansi-bold">store</span> <span class="ansi-bright-magenta-fg">atomic</span> <span class="ansi-cyan-fg">i64</span> <span class="ansi-yellow-fg">139856430455200</span>, <span class="ansi-bright-magenta-fg">ptr</span> %"Memory<span class="ansi-yellow-fg">{</span>Float64<span class="ansi-yellow-fg">}</span><span class="ansi-yellow-fg">[</span><span class="ansi-yellow-fg">]</span>.tag_addr" <span class="ansi-bright-magenta-fg">unordered</span>, <span class="ansi-bright-magenta-fg">align</span> <span class="ansi-yellow-fg">8</span>
+  <span class="ansi-bright-cyan-fg ansi-bold">store</span> <span class="ansi-bright-magenta-fg">atomic</span> <span class="ansi-cyan-fg">i64</span> <span class="ansi-yellow-fg">139915729525152</span>, <span class="ansi-bright-magenta-fg">ptr</span> %"Memory<span class="ansi-yellow-fg">{</span>Float64<span class="ansi-yellow-fg">}</span><span class="ansi-yellow-fg">[</span><span class="ansi-yellow-fg">]</span>.tag_addr" <span class="ansi-bright-magenta-fg">unordered</span>, <span class="ansi-bright-magenta-fg">align</span> <span class="ansi-yellow-fg">8</span>
   %memory_ptr = <span class="ansi-bright-cyan-fg ansi-bold">getelementptr</span> <span class="ansi-bright-magenta-fg">inbounds</span> <span class="ansi-bright-magenta-fg">nuw</span> <span class="ansi-cyan-fg">i8</span>, <span class="ansi-bright-magenta-fg">ptr</span> %"Memory<span class="ansi-yellow-fg">{</span>Float64<span class="ansi-yellow-fg">}</span><span class="ansi-yellow-fg">[</span><span class="ansi-yellow-fg">]</span>", <span class="ansi-cyan-fg">i64</span> <span class="ansi-yellow-fg">8</span>
   %memory_data = <span class="ansi-bright-cyan-fg ansi-bold">getelementptr</span> <span class="ansi-bright-magenta-fg">inbounds</span> <span class="ansi-bright-magenta-fg">nuw</span> <span class="ansi-cyan-fg">i8</span>, <span class="ansi-bright-magenta-fg">ptr</span> %"Memory<span class="ansi-yellow-fg">{</span>Float64<span class="ansi-yellow-fg">}</span><span class="ansi-yellow-fg">[</span><span class="ansi-yellow-fg">]</span>", <span class="ansi-cyan-fg">i64</span> <span class="ansi-yellow-fg">16</span>
   <span class="ansi-bright-cyan-fg ansi-bold">store</span> <span class="ansi-bright-magenta-fg">ptr</span> %memory_data, <span class="ansi-bright-magenta-fg">ptr</span> %memory_ptr, <span class="ansi-bright-magenta-fg">align</span> <span class="ansi-yellow-fg">8</span>
@@ -319,9 +339,9 @@ Neven Sajko
   %gc_slot_addr_0 = <span class="ansi-bright-cyan-fg ansi-bold">getelementptr</span> <span class="ansi-bright-magenta-fg">inbounds</span> <span class="ansi-bright-magenta-fg">nuw</span> <span class="ansi-cyan-fg">i8</span>, <span class="ansi-bright-magenta-fg">ptr</span> %gcframe1, <span class="ansi-cyan-fg">i64</span> <span class="ansi-yellow-fg">16</span>
   <span class="ansi-bright-cyan-fg ansi-bold">store</span> <span class="ansi-bright-magenta-fg">ptr</span> %"Memory<span class="ansi-yellow-fg">{</span>Float64<span class="ansi-yellow-fg">}</span><span class="ansi-yellow-fg">[</span><span class="ansi-yellow-fg">]</span>", <span class="ansi-bright-magenta-fg">ptr</span> %gc_slot_addr_0, <span class="ansi-bright-magenta-fg">align</span> <span class="ansi-yellow-fg">8</span>
   %ptls_load11 = <span class="ansi-bright-cyan-fg ansi-bold">load</span> <span class="ansi-bright-magenta-fg">ptr</span>, <span class="ansi-bright-magenta-fg">ptr</span> %ptls_field, <span class="ansi-bright-magenta-fg">align</span> <span class="ansi-yellow-fg">8</span>
-  %"new::Array" = <span class="ansi-bright-cyan-fg ansi-bold">call</span> <span class="ansi-bright-magenta-fg">noalias</span> <span class="ansi-bright-magenta-fg">nonnull</span> <span class="ansi-bright-magenta-fg">align</span> <span class="ansi-yellow-fg">8</span> <span class="ansi-bright-magenta-fg">dereferenceable</span><span class="ansi-yellow-fg">(</span><span class="ansi-yellow-fg">32</span><span class="ansi-yellow-fg">)</span> <span class="ansi-bright-magenta-fg">ptr</span> <span class="ansi-bright-yellow-fg">@ijl_gc_small_alloc</span><span class="ansi-yellow-fg">(</span><span class="ansi-bright-magenta-fg">ptr</span> %ptls_load11, <span class="ansi-cyan-fg">i32</span> <span class="ansi-yellow-fg">408</span>, <span class="ansi-cyan-fg">i32</span> <span class="ansi-yellow-fg">32</span>, <span class="ansi-cyan-fg">i64</span> <span class="ansi-yellow-fg">139856374312288</span><span class="ansi-yellow-fg">)</span> #7
+  %"new::Array" = <span class="ansi-bright-cyan-fg ansi-bold">call</span> <span class="ansi-bright-magenta-fg">noalias</span> <span class="ansi-bright-magenta-fg">nonnull</span> <span class="ansi-bright-magenta-fg">align</span> <span class="ansi-yellow-fg">8</span> <span class="ansi-bright-magenta-fg">dereferenceable</span><span class="ansi-yellow-fg">(</span><span class="ansi-yellow-fg">32</span><span class="ansi-yellow-fg">)</span> <span class="ansi-bright-magenta-fg">ptr</span> <span class="ansi-bright-yellow-fg">@ijl_gc_small_alloc</span><span class="ansi-yellow-fg">(</span><span class="ansi-bright-magenta-fg">ptr</span> %ptls_load11, <span class="ansi-cyan-fg">i32</span> <span class="ansi-yellow-fg">408</span>, <span class="ansi-cyan-fg">i32</span> <span class="ansi-yellow-fg">32</span>, <span class="ansi-cyan-fg">i64</span> <span class="ansi-yellow-fg">139915673382240</span><span class="ansi-yellow-fg">)</span> #7
   %"new::Array.tag_addr" = <span class="ansi-bright-cyan-fg ansi-bold">getelementptr</span> <span class="ansi-bright-magenta-fg">inbounds</span> <span class="ansi-cyan-fg">i8</span>, <span class="ansi-bright-magenta-fg">ptr</span> %"new::Array", <span class="ansi-cyan-fg">i64</span> <span class="ansi-yellow-fg">-8</span>
-  <span class="ansi-bright-cyan-fg ansi-bold">store</span> <span class="ansi-bright-magenta-fg">atomic</span> <span class="ansi-cyan-fg">i64</span> <span class="ansi-yellow-fg">139856374312288</span>, <span class="ansi-bright-magenta-fg">ptr</span> %"new::Array.tag_addr" <span class="ansi-bright-magenta-fg">unordered</span>, <span class="ansi-bright-magenta-fg">align</span> <span class="ansi-yellow-fg">8</span>
+  <span class="ansi-bright-cyan-fg ansi-bold">store</span> <span class="ansi-bright-magenta-fg">atomic</span> <span class="ansi-cyan-fg">i64</span> <span class="ansi-yellow-fg">139915673382240</span>, <span class="ansi-bright-magenta-fg">ptr</span> %"new::Array.tag_addr" <span class="ansi-bright-magenta-fg">unordered</span>, <span class="ansi-bright-magenta-fg">align</span> <span class="ansi-yellow-fg">8</span>
   %0 = <span class="ansi-bright-cyan-fg ansi-bold">getelementptr</span> <span class="ansi-bright-magenta-fg">inbounds</span> <span class="ansi-bright-magenta-fg">nuw</span> <span class="ansi-cyan-fg">i8</span>, <span class="ansi-bright-magenta-fg">ptr</span> %"new::Array", <span class="ansi-cyan-fg">i64</span> <span class="ansi-yellow-fg">8</span>
   <span class="ansi-bright-cyan-fg ansi-bold">store</span> <span class="ansi-bright-magenta-fg">ptr</span> %memory_data, <span class="ansi-bright-magenta-fg">ptr</span> %"new::Array", <span class="ansi-bright-magenta-fg">align</span> <span class="ansi-yellow-fg">8</span>
   <span class="ansi-bright-cyan-fg ansi-bold">store</span> <span class="ansi-bright-magenta-fg">ptr</span> %"Memory<span class="ansi-yellow-fg">{</span>Float64<span class="ansi-yellow-fg">}</span><span class="ansi-yellow-fg">[</span><span class="ansi-yellow-fg">]</span>", <span class="ansi-bright-magenta-fg">ptr</span> %0, <span class="ansi-bright-magenta-fg">align</span> <span class="ansi-yellow-fg">8</span>
@@ -339,9 +359,9 @@ Neven Sajko
 </div>
 </section>
 <section class="slide level2">
-<h2>Show off: Constprop of length</h2>
+<h2>Constprop of length (cont.)</h2>
 <div id="6" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">code_llvm</span>(() <span class="op">-&gt;</span> <span class="fu">get_len</span>(<span class="fu">FixedSizeVector</span><span class="dt">{Float64}</span>(<span class="cn">undef</span>, <span class="fl">3</span>)), (); debuginfo<span class="op">=:</span>none)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">code_llvm</span>(() <span class="op">-&gt;</span> <span class="fu">get_len</span>(<span class="fu">FixedSizeVector</span><span class="dt">{Float64}</span>(<span class="cn">undef</span>, <span class="fl">3</span>)), (); debuginfo<span class="op">=:</span>none)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <div class="ansi-escaped-output">
 <pre><span class="ansi-bright-white-fg">; Function Signature: var"#5"()</span>
@@ -355,13 +375,13 @@ Neven Sajko
 </div>
 </section>
 <section class="slide level2">
-<h2>Show off: Better effects inference</h2>
+<h2>Better effects inference</h2>
 <div id="8" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">FixedSizeArrays</span></span>
-<span id="cb3-2"><a href="" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="pp">@noinline</span> <span class="fu">reshape_2_2</span>(v<span class="op">::</span><span class="dt">AbstractVector{Float64}</span>) <span class="op">=</span> <span class="fu">reshape</span>(v, <span class="fl">2</span>, <span class="fl">2</span>)</span>
-<span id="cb3-4"><a href="" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="bu">Base</span>.<span class="fu">infer_effects</span>(() <span class="op">-&gt;</span> <span class="fu">reshape_2_2</span>(<span class="fu">Vector</span><span class="dt">{Float64}</span>(<span class="cn">undef</span>, <span class="fl">3</span>)), ())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">FixedSizeArrays</span></span>
+<span id="cb4-2"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="pp">@noinline</span> <span class="fu">reshape_2_2</span>(v<span class="op">::</span><span class="dt">AbstractVector{Float64}</span>) <span class="op">=</span> <span class="fu">reshape</span>(v, <span class="fl">2</span>, <span class="fl">2</span>)</span>
+<span id="cb4-4"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="bu">Base</span>.<span class="fu">infer_effects</span>(() <span class="op">-&gt;</span> <span class="fu">reshape_2_2</span>(<span class="fu">Vector</span><span class="dt">{Float64}</span>(<span class="cn">undef</span>, <span class="fl">3</span>)), ())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="1">
 <div class="ansi-escaped-output">
 <pre>(<span class="ansi-yellow-fg">?c</span>,<span class="ansi-green-fg">+e</span>,<span class="ansi-red-fg">!n</span>,<span class="ansi-green-fg">+t</span>,<span class="ansi-green-fg">+s</span>,<span class="ansi-green-fg">+m</span>,<span class="ansi-green-fg">+u</span>,<span class="ansi-green-fg">+o</span>,<span class="ansi-green-fg">+r</span>)</pre>
@@ -369,7 +389,7 @@ Neven Sajko
 </div>
 </div>
 <div id="10" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="bu">Base</span>.<span class="fu">infer_effects</span>(() <span class="op">-&gt;</span> <span class="fu">reshape_2_2</span>(<span class="fu">FixedSizeVector</span><span class="dt">{Float64}</span>(<span class="cn">undef</span>, <span class="fl">3</span>)), ())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="bu">Base</span>.<span class="fu">infer_effects</span>(() <span class="op">-&gt;</span> <span class="fu">reshape_2_2</span>(<span class="fu">FixedSizeVector</span><span class="dt">{Float64}</span>(<span class="cn">undef</span>, <span class="fl">3</span>)), ())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="1">
 <div class="ansi-escaped-output">
 <pre>(<span class="ansi-green-fg">+c</span>,<span class="ansi-green-fg">+e</span>,<span class="ansi-red-fg">!n</span>,<span class="ansi-green-fg">+t</span>,<span class="ansi-green-fg">+s</span>,<span class="ansi-green-fg">+m</span>,<span class="ansi-green-fg">+u</span>,<span class="ansi-green-fg">+o</span>,<span class="ansi-green-fg">+r</span>)</pre>
@@ -377,7 +397,7 @@ Neven Sajko
 </div>
 </div>
 <div id="12" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="bu">Base</span>.<span class="fu">infer_effects</span>(() <span class="op">-&gt;</span> <span class="fu">reshape_2_2</span>(<span class="fu">Vector</span><span class="dt">{Float64}</span>(<span class="cn">undef</span>, <span class="fl">4</span>)), ())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="bu">Base</span>.<span class="fu">infer_effects</span>(() <span class="op">-&gt;</span> <span class="fu">reshape_2_2</span>(<span class="fu">Vector</span><span class="dt">{Float64}</span>(<span class="cn">undef</span>, <span class="fl">4</span>)), ())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="1">
 <div class="ansi-escaped-output">
 <pre>(<span class="ansi-yellow-fg">?c</span>,<span class="ansi-green-fg">+e</span>,<span class="ansi-red-fg">!n</span>,<span class="ansi-green-fg">+t</span>,<span class="ansi-green-fg">+s</span>,<span class="ansi-green-fg">+m</span>,<span class="ansi-green-fg">+u</span>,<span class="ansi-green-fg">+o</span>,<span class="ansi-green-fg">+r</span>)</pre>
@@ -385,7 +405,7 @@ Neven Sajko
 </div>
 </div>
 <div id="14" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="bu">Base</span>.<span class="fu">infer_effects</span>(() <span class="op">-&gt;</span> <span class="fu">reshape_2_2</span>(<span class="fu">FixedSizeVector</span><span class="dt">{Float64}</span>(<span class="cn">undef</span>, <span class="fl">4</span>)), ())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="bu">Base</span>.<span class="fu">infer_effects</span>(() <span class="op">-&gt;</span> <span class="fu">reshape_2_2</span>(<span class="fu">FixedSizeVector</span><span class="dt">{Float64}</span>(<span class="cn">undef</span>, <span class="fl">4</span>)), ())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="1">
 <div class="ansi-escaped-output">
 <pre>(<span class="ansi-yellow-fg">?c</span>,<span class="ansi-green-fg">+e</span>,<span class="ansi-green-fg">+n</span>,<span class="ansi-green-fg">+t</span>,<span class="ansi-green-fg">+s</span>,<span class="ansi-green-fg">+m</span>,<span class="ansi-green-fg">+u</span>,<span class="ansi-green-fg">+o</span>,<span class="ansi-green-fg">+r</span>)</pre>
@@ -394,18 +414,18 @@ Neven Sajko
 </div>
 </section>
 <section class="slide level2">
-<h2>Show off: Eliding memory allocations</h2>
+<h2>Eliding memory allocations</h2>
 <div id="16" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">FixedSizeArrays</span>, <span class="bu">Random</span></span>
-<span id="cb7-2"><a href="" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">g</span>(T)</span>
-<span id="cb7-4"><a href="" aria-hidden="true" tabindex="-1"></a>    v <span class="op">=</span> <span class="fu">T</span>(<span class="cn">undef</span>, <span class="fl">250</span>)</span>
-<span id="cb7-5"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rand!</span>(v)</span>
-<span id="cb7-6"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fu">foldl</span>(<span class="op">+</span>, v)</span>
-<span id="cb7-7"><a href="" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
-<span id="cb7-8"><a href="" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-9"><a href="" aria-hidden="true" tabindex="-1"></a><span class="pp">@info</span> <span class="st">"Vector"</span> allocations<span class="op">=</span><span class="pp">@allocated</span> <span class="fu">g</span>(<span class="dt">Vector</span>{<span class="dt">Float64</span>})</span>
-<span id="cb7-10"><a href="" aria-hidden="true" tabindex="-1"></a><span class="pp">@info</span> <span class="st">"FixedSizeVector"</span> allocations<span class="op">=</span><span class="pp">@allocated</span> <span class="fu">g</span>(FixedSizeVectorDefault{<span class="dt">Float64</span>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb8-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">FixedSizeArrays</span>, <span class="bu">Random</span></span>
+<span id="cb8-2"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">g</span>(T)</span>
+<span id="cb8-4"><a href="" aria-hidden="true" tabindex="-1"></a>    v <span class="op">=</span> <span class="fu">T</span>(<span class="cn">undef</span>, <span class="fl">250</span>)</span>
+<span id="cb8-5"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rand!</span>(v)</span>
+<span id="cb8-6"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fu">foldl</span>(<span class="op">+</span>, v)</span>
+<span id="cb8-7"><a href="" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb8-8"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-9"><a href="" aria-hidden="true" tabindex="-1"></a><span class="pp">@info</span> <span class="st">"Vector"</span> allocations<span class="op">=</span><span class="pp">@allocated</span> <span class="fu">g</span>(<span class="dt">Vector</span>{<span class="dt">Float64</span>})</span>
+<span id="cb8-10"><a href="" aria-hidden="true" tabindex="-1"></a><span class="pp">@info</span> <span class="st">"FixedSizeVector"</span> allocations<span class="op">=</span><span class="pp">@allocated</span> <span class="fu">g</span>(FixedSizeVectorDefault{<span class="dt">Float64</span>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <div class="ansi-escaped-output">
 <pre><span class="ansi-cyan-fg ansi-bold">┌ </span><span class="ansi-cyan-fg ansi-bold">Info: </span>Vector
@@ -418,28 +438,28 @@ Neven Sajko
 </div>
 </section>
 <section class="slide level2">
-<h2>Show off: Faster gradient with Enzyme</h2>
+<h2>Faster gradient with Enzyme</h2>
 <!-- This requires Julia v1.11, can't be done on nightly because Enzyme is -->
 <!-- broken, so we have to use a non-executable block of code. -->
-<div class="sourceCode" id="cb8"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb8-1"><a href="" aria-hidden="true" tabindex="-1"></a>julia<span class="op">&gt;</span> <span class="im">using</span> <span class="bu">BenchmarkTools</span>, <span class="bu">FixedSizeArrays</span>, <span class="bu">Enzyme</span></span>
-<span id="cb8-2"><a href="" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-3"><a href="" aria-hidden="true" tabindex="-1"></a>julia<span class="op">&gt;</span> <span class="kw">function</span> <span class="fu">g</span>(x<span class="op">::</span><span class="dt">AbstractVector{T}</span>, y<span class="op">::</span><span class="dt">AbstractVector{T}</span>) <span class="kw">where</span> {T}</span>
-<span id="cb8-4"><a href="" aria-hidden="true" tabindex="-1"></a>           sum <span class="op">=</span> <span class="fu">zero</span>(<span class="fu">float</span>(T))</span>
-<span id="cb8-5"><a href="" aria-hidden="true" tabindex="-1"></a>           <span class="cf">for</span> idx <span class="kw">in</span> <span class="fu">eachindex</span>(x, y)</span>
-<span id="cb8-6"><a href="" aria-hidden="true" tabindex="-1"></a>               sum <span class="op">+=</span> <span class="fu">sin</span>(x[idx]) <span class="op">^</span> <span class="fl">2</span> <span class="op">+</span> <span class="fu">cos</span>(y[idx]) <span class="op">^</span> <span class="fl">2</span></span>
-<span id="cb8-7"><a href="" aria-hidden="true" tabindex="-1"></a>           <span class="cf">end</span></span>
-<span id="cb8-8"><a href="" aria-hidden="true" tabindex="-1"></a>           <span class="cf">return</span> sum</span>
-<span id="cb8-9"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="kw">end</span></span>
-<span id="cb8-10"><a href="" aria-hidden="true" tabindex="-1"></a>g (generic <span class="kw">function</span> with <span class="fl">1</span> method)</span>
-<span id="cb8-11"><a href="" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-12"><a href="" aria-hidden="true" tabindex="-1"></a>julia<span class="op">&gt;</span> <span class="pp">@btime</span> <span class="fu">gradient</span>(Forward, g, x, y) setup<span class="op">=</span>(x <span class="op">=</span> <span class="fu">randn</span>(<span class="fl">3</span>); y <span class="op">=</span> <span class="fu">randn</span>(<span class="fl">3</span>));</span>
-<span id="cb8-13"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fl">753.210</span> ns (<span class="fl">28</span> allocations<span class="op">:</span> <span class="fl">1.09</span> KiB)</span>
-<span id="cb8-14"><a href="" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-15"><a href="" aria-hidden="true" tabindex="-1"></a>julia<span class="op">&gt;</span> <span class="pp">@btime</span> <span class="fu">gradient</span>(Forward, g, x, y) setup<span class="op">=</span>(x <span class="op">=</span> <span class="fu">FixedSizeArray</span>(<span class="fu">randn</span>(<span class="fl">3</span>)); y <span class="op">=</span> <span class="fu">FixedSizeArray</span>(<span class="fu">randn</span>(<span class="fl">3</span>)));</span>
-<span id="cb8-16"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fl">487.737</span> ns (<span class="fl">20</span> allocations<span class="op">:</span> <span class="fl">880</span> bytes)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section class="slide level2">
-<h2>Conclusions</h2>
+<div class="sourceCode" id="cb9"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb9-1"><a href="" aria-hidden="true" tabindex="-1"></a>julia<span class="op">&gt;</span> <span class="im">using</span> <span class="bu">BenchmarkTools</span>, <span class="bu">FixedSizeArrays</span>, <span class="bu">Enzyme</span></span>
+<span id="cb9-2"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="" aria-hidden="true" tabindex="-1"></a>julia<span class="op">&gt;</span> <span class="kw">function</span> <span class="fu">g</span>(x<span class="op">::</span><span class="dt">AbstractVector{T}</span>, y<span class="op">::</span><span class="dt">AbstractVector{T}</span>) <span class="kw">where</span> {T}</span>
+<span id="cb9-4"><a href="" aria-hidden="true" tabindex="-1"></a>           sum <span class="op">=</span> <span class="fu">zero</span>(<span class="fu">float</span>(T))</span>
+<span id="cb9-5"><a href="" aria-hidden="true" tabindex="-1"></a>           <span class="cf">for</span> idx <span class="kw">in</span> <span class="fu">eachindex</span>(x, y)</span>
+<span id="cb9-6"><a href="" aria-hidden="true" tabindex="-1"></a>               sum <span class="op">+=</span> <span class="fu">sin</span>(x[idx]) <span class="op">^</span> <span class="fl">2</span> <span class="op">+</span> <span class="fu">cos</span>(y[idx]) <span class="op">^</span> <span class="fl">2</span></span>
+<span id="cb9-7"><a href="" aria-hidden="true" tabindex="-1"></a>           <span class="cf">end</span></span>
+<span id="cb9-8"><a href="" aria-hidden="true" tabindex="-1"></a>           <span class="cf">return</span> sum</span>
+<span id="cb9-9"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="kw">end</span></span>
+<span id="cb9-10"><a href="" aria-hidden="true" tabindex="-1"></a>g (generic <span class="kw">function</span> with <span class="fl">1</span> method)</span>
+<span id="cb9-11"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-12"><a href="" aria-hidden="true" tabindex="-1"></a>julia<span class="op">&gt;</span> <span class="pp">@btime</span> <span class="fu">gradient</span>(Forward, g, x, y) setup<span class="op">=</span>(x <span class="op">=</span> <span class="fu">randn</span>(<span class="fl">3</span>); y <span class="op">=</span> <span class="fu">randn</span>(<span class="fl">3</span>));</span>
+<span id="cb9-13"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fl">753.210</span> ns (<span class="fl">28</span> allocations<span class="op">:</span> <span class="fl">1.09</span> KiB)</span>
+<span id="cb9-14"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-15"><a href="" aria-hidden="true" tabindex="-1"></a>julia<span class="op">&gt;</span> <span class="pp">@btime</span> <span class="fu">gradient</span>(Forward, g, x, y) setup<span class="op">=</span>(x <span class="op">=</span> <span class="fu">FixedSizeArray</span>(<span class="fu">randn</span>(<span class="fl">3</span>)); y <span class="op">=</span> <span class="fu">FixedSizeArray</span>(<span class="fu">randn</span>(<span class="fl">3</span>)));</span>
+<span id="cb9-16"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fl">487.737</span> ns (<span class="fl">20</span> allocations<span class="op">:</span> <span class="fl">880</span> bytes)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section></section>
+<section class="title-slide slide level1 center">
+<h1>Conclusions</h1>
 <ul>
 <li>Future improvements…</li>
 <li>…</li>
