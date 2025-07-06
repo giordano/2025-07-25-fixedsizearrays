@@ -61,6 +61,20 @@ end
 
 # Show off
 
+## Fewer allocations{.scrollable}
+
+```{julia}
+#| echo: true
+
+using FixedSizeArrays, BenchmarkTools
+
+for n in (0, 2^0, 2^5, 2^10)
+    @info "n = $(n)"
+    @btime fill!(Vector{Float64}(undef, $(n)), 0.0)
+    @btime fill!(FixedSizeVectorDefault{Float64}(undef, $(n)), 0.0)
+end
+```
+
 ## Constprop of length{.scrollable}
 
 ```{julia}
