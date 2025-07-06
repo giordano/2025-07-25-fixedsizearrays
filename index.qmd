@@ -74,7 +74,6 @@ code_llvm(() -> get_len(FixedSizeVector{Float64}(undef, 3)), (); debuginfo=:none
 
 ```{julia}
 #| echo: true
-#| 
 
 using FixedSizeArrays
 
@@ -85,12 +84,12 @@ Base.infer_effects(() -> reshape_2_2(Vector{Float64}(undef, 3)), ())
 ```{julia}
 #| echo: true
 
-Base.infer_effects(() -> reshape_2_2(Vector{Float64}(undef, 4)), ())
+Base.infer_effects(() -> reshape_2_2(FixedSizeVector{Float64}(undef, 3)), ())
 ```
 ```{julia}
 #| echo: true
 
-Base.infer_effects(() -> reshape_2_2(FixedSizeVector{Float64}(undef, 3)), ())
+Base.infer_effects(() -> reshape_2_2(Vector{Float64}(undef, 4)), ())
 ```
 ```{julia}
 #| echo: true
