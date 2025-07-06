@@ -103,7 +103,7 @@ Base.infer_effects(() -> reshape_2_2(FixedSizeVector{Float64}(undef, 4)), ())
 ```{julia}
 #| echo: true
 
-using FixedSizeArrays, Random
+using BenchmarkTools, FixedSizeArrays, Random
 
 function g(T)
     v = T(undef, 250)
@@ -111,8 +111,8 @@ function g(T)
     return foldl(+, v)
 end
 
-@info "Vector" allocations=@allocated g(Vector{Float64})
-@info "FixedSizeVector" allocations=@allocated g(FixedSizeVectorDefault{Float64})
+@btime g(Vector{Float64})
+@btime g(FixedSizeVectorDefault{Float64})
 ```
 
 ## Show off: Enzyme
@@ -120,7 +120,7 @@ end
 <!-- This requires Julia v1.11, can't be done on nightly because Enzyme is -->
 <!-- broken, so we have to use a non-executable block of code. -->
 
-```{.julia code-line-numbers="false"}
+```julia
 julia> using BenchmarkTools, FixedSizeArrays, Enzyme
 
 julia> function g(x::AbstractVector{T}, y::AbstractVector{T}) where {T}
