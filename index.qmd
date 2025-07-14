@@ -31,7 +31,11 @@ engine: julia
 
 ## Motivation
 
-...
+Array is mutable
+
+Harder for compilers to reason about
+
+Extra allocations
 
 ## Implementation
 
@@ -39,9 +43,10 @@ engine: julia
 struct FixedSizeArray{T,N,Mem<:DenseVector{T}} <: DenseArray{T,N}
     mem::Mem
     size::NTuple{N,Int}
-    global function new_fixed_size_array(mem::DenseVector{T}, size::NTuple{N,Int}) where {T,N}
-        new{T,N,typeof(mem)}(mem, size)
-    end
+end
+
+function new_fixed_size_array(mem::DenseVector{T}, size::NTuple{N,Int}) where {T,N}
+    new{T,N,typeof(mem)}(mem, size)
 end
 ```
 
