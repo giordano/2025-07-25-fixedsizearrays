@@ -33,9 +33,11 @@ julia:
 
 ## Motivation
 
-Array is mutable
+Memory is great, but 1D
 
-Harder for compilers to reason about
+Mathy Arrays don't change size
+
+Mutability is hard to reason about
 
 Extra allocations
 
@@ -179,8 +181,10 @@ julia> @btime gradient(Forward, g, x, y) setup=(x = FixedSizeArray(randn(3)); y 
 
 # Conclusions
 
-* Future improvements...
-* ...
+* Future improvements
+    * Missing pieces of interface?
+    * More compiler analysis (inter-procedural escape analysis)
+* I really wish Base had separate Array and List
 
 <!-- Local Variables: -->
 <!-- mode: markdown -->
