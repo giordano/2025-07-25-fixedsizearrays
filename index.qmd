@@ -33,13 +33,10 @@ julia:
 
 ## Motivation
 
-Memory is great, but 1D
-
-Mathy Arrays don't change size
-
-Mutability is hard to reason about
-
-Extra allocations
+* Memory is great, but 1D
+* Mathy Arrays don't change size
+* Mutability is hard to reason about
+* Extra allocations
 
 ## Implementation
 
