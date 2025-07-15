@@ -259,17 +259,23 @@ Neven Sajko
 </section>
 <section class="slide level2">
 <h2>Motivation</h2>
-<p>…</p>
+<ul>
+<li>Memory is great, but 1D</li>
+<li>Mathy Arrays don’t change size</li>
+<li>Mutability is hard to reason about</li>
+<li>Extra allocations</li>
+</ul>
 </section>
 <section class="slide level2">
 <h2>Implementation</h2>
 <div class="sourceCode" id="cb1" data-code-line-numbers="|1|2|3"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href=""></a><span class="kw">struct</span> FixedSizeArray{T,N,Mem<span class="op">&lt;:</span><span class="dt">DenseVector{T}</span>} <span class="op">&lt;:</span><span class="dt"> DenseArray{T,N}</span></span>
 <span id="cb1-2"><a href=""></a>    mem<span class="op">::</span><span class="dt">Mem</span></span>
 <span id="cb1-3"><a href=""></a>    size<span class="op">::</span><span class="dt">NTuple{N,Int}</span></span>
-<span id="cb1-4"><a href=""></a>    <span class="kw">global</span> <span class="kw">function</span> <span class="fu">new_fixed_size_array</span>(mem<span class="op">::</span><span class="dt">DenseVector{T}</span>, size<span class="op">::</span><span class="dt">NTuple{N,Int}</span>) <span class="kw">where</span> {T,N}</span>
-<span id="cb1-5"><a href=""></a>        <span class="fu">new</span><span class="dt">{T,N,typeof(mem)}</span>(mem, size)</span>
-<span id="cb1-6"><a href=""></a>    <span class="kw">end</span></span>
-<span id="cb1-7"><a href=""></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-4"><a href=""></a><span class="kw">end</span></span>
+<span id="cb1-5"><a href=""></a></span>
+<span id="cb1-6"><a href=""></a><span class="kw">function</span> <span class="fu">new_fixed_size_array</span>(mem<span class="op">::</span><span class="dt">DenseVector{T}</span>, size<span class="op">::</span><span class="dt">NTuple{N,Int}</span>) <span class="kw">where</span> {T,N}</span>
+<span id="cb1-7"><a href=""></a>    <span class="fu">new</span><span class="dt">{T,N,typeof(mem)}</span>(mem, size)</span>
+<span id="cb1-8"><a href=""></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section class="slide level2">
 <h2>…</h2>
@@ -344,17 +350,17 @@ Neven Sajko
 <div class="cell-output cell-output-stdout">
 <div class="ansi-escaped-output">
 <pre><span class="ansi-cyan-fg ansi-bold">[ </span><span class="ansi-cyan-fg ansi-bold">Info: </span>n = 0
-  7.752 ns (1 allocation: 32 bytes)
+  7.461 ns (1 allocation: 32 bytes)
   3.716 ns (0 allocations: 0 bytes)
 <span class="ansi-cyan-fg ansi-bold">[ </span><span class="ansi-cyan-fg ansi-bold">Info: </span>n = 1
-  15.289 ns (2 allocations: 64 bytes)
-  11.472 ns (1 allocation: 32 bytes)
+  15.370 ns (2 allocations: 64 bytes)
+  11.452 ns (1 allocation: 32 bytes)
 <span class="ansi-cyan-fg ansi-bold">[ </span><span class="ansi-cyan-fg ansi-bold">Info: </span>n = 32
-  19.104 ns (2 allocations: 320 bytes)
-  13.071 ns (1 allocation: 288 bytes)
+  19.194 ns (2 allocations: 320 bytes)
+  13.041 ns (1 allocation: 288 bytes)
 <span class="ansi-cyan-fg ansi-bold">[ </span><span class="ansi-cyan-fg ansi-bold">Info: </span>n = 1024
-  427.075 ns (3 allocations: 8.07 KiB)
-  386.203 ns (2 allocations: 8.04 KiB)
+  359.957 ns (3 allocations: 8.07 KiB)
+  371.082 ns (2 allocations: 8.04 KiB)
 </pre>
 </div>
 </div>
@@ -371,7 +377,7 @@ Neven Sajko
 <div class="cell-output cell-output-stdout">
 <div class="ansi-escaped-output">
 <pre><span class="ansi-bright-white-fg">; Function Signature: var"#2"()</span>
-<span class="ansi-bright-magenta-fg">define</span> <span class="ansi-cyan-fg">i64</span> <span class="ansi-bright-yellow-fg">@"julia_#2_6477"</span><span class="ansi-yellow-fg">(</span><span class="ansi-yellow-fg">)</span> <span class="ansi-bright-magenta-fg">local_unnamed_addr</span> #0 <span class="ansi-yellow-fg">{</span>
+<span class="ansi-bright-magenta-fg">define</span> <span class="ansi-cyan-fg">i64</span> <span class="ansi-bright-yellow-fg">@"julia_#2_7235"</span><span class="ansi-yellow-fg">(</span><span class="ansi-yellow-fg">)</span> <span class="ansi-bright-magenta-fg">local_unnamed_addr</span> #0 <span class="ansi-yellow-fg">{</span>
 <span class="ansi-bright-red-fg">top:</span>
   %gcframe1 = <span class="ansi-bright-cyan-fg ansi-bold">alloca</span> <span class="ansi-yellow-fg">[</span><span class="ansi-yellow-fg">3</span> x <span class="ansi-bright-magenta-fg">ptr</span><span class="ansi-yellow-fg">]</span>, <span class="ansi-bright-magenta-fg">align</span> <span class="ansi-yellow-fg">16</span>
   <span class="ansi-bright-cyan-fg ansi-bold">call</span> <span class="ansi-cyan-fg">void</span> <span class="ansi-bright-yellow-fg">@llvm.memset.p0.i64</span><span class="ansi-yellow-fg">(</span><span class="ansi-bright-magenta-fg">ptr</span> <span class="ansi-bright-magenta-fg">align</span> <span class="ansi-yellow-fg">16</span> %gcframe1, <span class="ansi-cyan-fg">i8</span> <span class="ansi-yellow-fg">0</span>, <span class="ansi-cyan-fg">i64</span> <span class="ansi-yellow-fg">24</span>, <span class="ansi-cyan-fg">i1</span> <span class="ansi-bright-magenta-fg">true</span><span class="ansi-yellow-fg">)</span>
@@ -385,9 +391,9 @@ Neven Sajko
   <span class="ansi-bright-cyan-fg ansi-bold">store</span> <span class="ansi-bright-magenta-fg">ptr</span> %gcframe1, <span class="ansi-bright-magenta-fg">ptr</span> %tls_pgcstack, <span class="ansi-bright-magenta-fg">align</span> <span class="ansi-yellow-fg">8</span>
   %ptls_field = <span class="ansi-bright-cyan-fg ansi-bold">getelementptr</span> <span class="ansi-bright-magenta-fg">inbounds</span> <span class="ansi-bright-magenta-fg">nuw</span> <span class="ansi-cyan-fg">i8</span>, <span class="ansi-bright-magenta-fg">ptr</span> %tls_pgcstack, <span class="ansi-cyan-fg">i64</span> <span class="ansi-yellow-fg">16</span>
   %ptls_load = <span class="ansi-bright-cyan-fg ansi-bold">load</span> <span class="ansi-bright-magenta-fg">ptr</span>, <span class="ansi-bright-magenta-fg">ptr</span> %ptls_field, <span class="ansi-bright-magenta-fg">align</span> <span class="ansi-yellow-fg">8</span>
-  %"Memory{Float64}[]" = <span class="ansi-bright-cyan-fg ansi-bold">call</span> <span class="ansi-bright-magenta-fg">noalias</span> <span class="ansi-bright-magenta-fg">nonnull</span> <span class="ansi-bright-magenta-fg">align</span> <span class="ansi-yellow-fg">8</span> <span class="ansi-bright-magenta-fg">dereferenceable</span><span class="ansi-yellow-fg">(</span><span class="ansi-yellow-fg">48</span><span class="ansi-yellow-fg">)</span> <span class="ansi-bright-magenta-fg">ptr</span> <span class="ansi-bright-yellow-fg">@ijl_gc_small_alloc</span><span class="ansi-yellow-fg">(</span><span class="ansi-bright-magenta-fg">ptr</span> %ptls_load, <span class="ansi-cyan-fg">i32</span> <span class="ansi-yellow-fg">456</span>, <span class="ansi-cyan-fg">i32</span> <span class="ansi-yellow-fg">48</span>, <span class="ansi-cyan-fg">i64</span> <span class="ansi-yellow-fg">140671111092640</span><span class="ansi-yellow-fg">)</span> #7
+  %"Memory{Float64}[]" = <span class="ansi-bright-cyan-fg ansi-bold">call</span> <span class="ansi-bright-magenta-fg">noalias</span> <span class="ansi-bright-magenta-fg">nonnull</span> <span class="ansi-bright-magenta-fg">align</span> <span class="ansi-yellow-fg">8</span> <span class="ansi-bright-magenta-fg">dereferenceable</span><span class="ansi-yellow-fg">(</span><span class="ansi-yellow-fg">48</span><span class="ansi-yellow-fg">)</span> <span class="ansi-bright-magenta-fg">ptr</span> <span class="ansi-bright-yellow-fg">@ijl_gc_small_alloc</span><span class="ansi-yellow-fg">(</span><span class="ansi-bright-magenta-fg">ptr</span> %ptls_load, <span class="ansi-cyan-fg">i32</span> <span class="ansi-yellow-fg">456</span>, <span class="ansi-cyan-fg">i32</span> <span class="ansi-yellow-fg">48</span>, <span class="ansi-cyan-fg">i64</span> <span class="ansi-yellow-fg">140651344957200</span><span class="ansi-yellow-fg">)</span> #7
   %"Memory{Float64}[].tag_addr" = <span class="ansi-bright-cyan-fg ansi-bold">getelementptr</span> <span class="ansi-bright-magenta-fg">inbounds</span> <span class="ansi-cyan-fg">i8</span>, <span class="ansi-bright-magenta-fg">ptr</span> %"Memory<span class="ansi-yellow-fg">{</span>Float64<span class="ansi-yellow-fg">}</span><span class="ansi-yellow-fg">[</span><span class="ansi-yellow-fg">]</span>", <span class="ansi-cyan-fg">i64</span> <span class="ansi-yellow-fg">-8</span>
-  <span class="ansi-bright-cyan-fg ansi-bold">store</span> <span class="ansi-bright-magenta-fg">atomic</span> <span class="ansi-cyan-fg">i64</span> <span class="ansi-yellow-fg">140671111092640</span>, <span class="ansi-bright-magenta-fg">ptr</span> %"Memory<span class="ansi-yellow-fg">{</span>Float64<span class="ansi-yellow-fg">}</span><span class="ansi-yellow-fg">[</span><span class="ansi-yellow-fg">]</span>.tag_addr" <span class="ansi-bright-magenta-fg">unordered</span>, <span class="ansi-bright-magenta-fg">align</span> <span class="ansi-yellow-fg">8</span>
+  <span class="ansi-bright-cyan-fg ansi-bold">store</span> <span class="ansi-bright-magenta-fg">atomic</span> <span class="ansi-cyan-fg">i64</span> <span class="ansi-yellow-fg">140651344957200</span>, <span class="ansi-bright-magenta-fg">ptr</span> %"Memory<span class="ansi-yellow-fg">{</span>Float64<span class="ansi-yellow-fg">}</span><span class="ansi-yellow-fg">[</span><span class="ansi-yellow-fg">]</span>.tag_addr" <span class="ansi-bright-magenta-fg">unordered</span>, <span class="ansi-bright-magenta-fg">align</span> <span class="ansi-yellow-fg">8</span>
   %memory_ptr = <span class="ansi-bright-cyan-fg ansi-bold">getelementptr</span> <span class="ansi-bright-magenta-fg">inbounds</span> <span class="ansi-bright-magenta-fg">nuw</span> <span class="ansi-cyan-fg">i8</span>, <span class="ansi-bright-magenta-fg">ptr</span> %"Memory<span class="ansi-yellow-fg">{</span>Float64<span class="ansi-yellow-fg">}</span><span class="ansi-yellow-fg">[</span><span class="ansi-yellow-fg">]</span>", <span class="ansi-cyan-fg">i64</span> <span class="ansi-yellow-fg">8</span>
   %memory_data = <span class="ansi-bright-cyan-fg ansi-bold">getelementptr</span> <span class="ansi-bright-magenta-fg">inbounds</span> <span class="ansi-bright-magenta-fg">nuw</span> <span class="ansi-cyan-fg">i8</span>, <span class="ansi-bright-magenta-fg">ptr</span> %"Memory<span class="ansi-yellow-fg">{</span>Float64<span class="ansi-yellow-fg">}</span><span class="ansi-yellow-fg">[</span><span class="ansi-yellow-fg">]</span>", <span class="ansi-cyan-fg">i64</span> <span class="ansi-yellow-fg">16</span>
   <span class="ansi-bright-cyan-fg ansi-bold">store</span> <span class="ansi-bright-magenta-fg">ptr</span> %memory_data, <span class="ansi-bright-magenta-fg">ptr</span> %memory_ptr, <span class="ansi-bright-magenta-fg">align</span> <span class="ansi-yellow-fg">8</span>
@@ -395,16 +401,16 @@ Neven Sajko
   %gc_slot_addr_0 = <span class="ansi-bright-cyan-fg ansi-bold">getelementptr</span> <span class="ansi-bright-magenta-fg">inbounds</span> <span class="ansi-bright-magenta-fg">nuw</span> <span class="ansi-cyan-fg">i8</span>, <span class="ansi-bright-magenta-fg">ptr</span> %gcframe1, <span class="ansi-cyan-fg">i64</span> <span class="ansi-yellow-fg">16</span>
   <span class="ansi-bright-cyan-fg ansi-bold">store</span> <span class="ansi-bright-magenta-fg">ptr</span> %"Memory<span class="ansi-yellow-fg">{</span>Float64<span class="ansi-yellow-fg">}</span><span class="ansi-yellow-fg">[</span><span class="ansi-yellow-fg">]</span>", <span class="ansi-bright-magenta-fg">ptr</span> %gc_slot_addr_0, <span class="ansi-bright-magenta-fg">align</span> <span class="ansi-yellow-fg">8</span>
   %ptls_load11 = <span class="ansi-bright-cyan-fg ansi-bold">load</span> <span class="ansi-bright-magenta-fg">ptr</span>, <span class="ansi-bright-magenta-fg">ptr</span> %ptls_field, <span class="ansi-bright-magenta-fg">align</span> <span class="ansi-yellow-fg">8</span>
-  %"new::Array" = <span class="ansi-bright-cyan-fg ansi-bold">call</span> <span class="ansi-bright-magenta-fg">noalias</span> <span class="ansi-bright-magenta-fg">nonnull</span> <span class="ansi-bright-magenta-fg">align</span> <span class="ansi-yellow-fg">8</span> <span class="ansi-bright-magenta-fg">dereferenceable</span><span class="ansi-yellow-fg">(</span><span class="ansi-yellow-fg">32</span><span class="ansi-yellow-fg">)</span> <span class="ansi-bright-magenta-fg">ptr</span> <span class="ansi-bright-yellow-fg">@ijl_gc_small_alloc</span><span class="ansi-yellow-fg">(</span><span class="ansi-bright-magenta-fg">ptr</span> %ptls_load11, <span class="ansi-cyan-fg">i32</span> <span class="ansi-yellow-fg">408</span>, <span class="ansi-cyan-fg">i32</span> <span class="ansi-yellow-fg">32</span>, <span class="ansi-cyan-fg">i64</span> <span class="ansi-yellow-fg">140671054949728</span><span class="ansi-yellow-fg">)</span> #7
+  %"new::Array" = <span class="ansi-bright-cyan-fg ansi-bold">call</span> <span class="ansi-bright-magenta-fg">noalias</span> <span class="ansi-bright-magenta-fg">nonnull</span> <span class="ansi-bright-magenta-fg">align</span> <span class="ansi-yellow-fg">8</span> <span class="ansi-bright-magenta-fg">dereferenceable</span><span class="ansi-yellow-fg">(</span><span class="ansi-yellow-fg">32</span><span class="ansi-yellow-fg">)</span> <span class="ansi-bright-magenta-fg">ptr</span> <span class="ansi-bright-yellow-fg">@ijl_gc_small_alloc</span><span class="ansi-yellow-fg">(</span><span class="ansi-bright-magenta-fg">ptr</span> %ptls_load11, <span class="ansi-cyan-fg">i32</span> <span class="ansi-yellow-fg">408</span>, <span class="ansi-cyan-fg">i32</span> <span class="ansi-yellow-fg">32</span>, <span class="ansi-cyan-fg">i64</span> <span class="ansi-yellow-fg">140651344957008</span><span class="ansi-yellow-fg">)</span> #7
   %"new::Array.tag_addr" = <span class="ansi-bright-cyan-fg ansi-bold">getelementptr</span> <span class="ansi-bright-magenta-fg">inbounds</span> <span class="ansi-cyan-fg">i8</span>, <span class="ansi-bright-magenta-fg">ptr</span> %"new::Array", <span class="ansi-cyan-fg">i64</span> <span class="ansi-yellow-fg">-8</span>
-  <span class="ansi-bright-cyan-fg ansi-bold">store</span> <span class="ansi-bright-magenta-fg">atomic</span> <span class="ansi-cyan-fg">i64</span> <span class="ansi-yellow-fg">140671054949728</span>, <span class="ansi-bright-magenta-fg">ptr</span> %"new::Array.tag_addr" <span class="ansi-bright-magenta-fg">unordered</span>, <span class="ansi-bright-magenta-fg">align</span> <span class="ansi-yellow-fg">8</span>
+  <span class="ansi-bright-cyan-fg ansi-bold">store</span> <span class="ansi-bright-magenta-fg">atomic</span> <span class="ansi-cyan-fg">i64</span> <span class="ansi-yellow-fg">140651344957008</span>, <span class="ansi-bright-magenta-fg">ptr</span> %"new::Array.tag_addr" <span class="ansi-bright-magenta-fg">unordered</span>, <span class="ansi-bright-magenta-fg">align</span> <span class="ansi-yellow-fg">8</span>
   %0 = <span class="ansi-bright-cyan-fg ansi-bold">getelementptr</span> <span class="ansi-bright-magenta-fg">inbounds</span> <span class="ansi-bright-magenta-fg">nuw</span> <span class="ansi-cyan-fg">i8</span>, <span class="ansi-bright-magenta-fg">ptr</span> %"new::Array", <span class="ansi-cyan-fg">i64</span> <span class="ansi-yellow-fg">8</span>
   <span class="ansi-bright-cyan-fg ansi-bold">store</span> <span class="ansi-bright-magenta-fg">ptr</span> %memory_data, <span class="ansi-bright-magenta-fg">ptr</span> %"new::Array", <span class="ansi-bright-magenta-fg">align</span> <span class="ansi-yellow-fg">8</span>
   <span class="ansi-bright-cyan-fg ansi-bold">store</span> <span class="ansi-bright-magenta-fg">ptr</span> %"Memory<span class="ansi-yellow-fg">{</span>Float64<span class="ansi-yellow-fg">}</span><span class="ansi-yellow-fg">[</span><span class="ansi-yellow-fg">]</span>", <span class="ansi-bright-magenta-fg">ptr</span> %0, <span class="ansi-bright-magenta-fg">align</span> <span class="ansi-yellow-fg">8</span>
   %"new::Array.size_ptr" = <span class="ansi-bright-cyan-fg ansi-bold">getelementptr</span> <span class="ansi-bright-magenta-fg">inbounds</span> <span class="ansi-bright-magenta-fg">nuw</span> <span class="ansi-cyan-fg">i8</span>, <span class="ansi-bright-magenta-fg">ptr</span> %"new::Array", <span class="ansi-cyan-fg">i64</span> <span class="ansi-yellow-fg">16</span>
   <span class="ansi-bright-cyan-fg ansi-bold">store</span> <span class="ansi-cyan-fg">i64</span> <span class="ansi-yellow-fg">3</span>, <span class="ansi-bright-magenta-fg">ptr</span> %"new::Array.size_ptr", <span class="ansi-bright-magenta-fg">align</span> <span class="ansi-yellow-fg">8</span>
   <span class="ansi-bright-cyan-fg ansi-bold">store</span> <span class="ansi-bright-magenta-fg">ptr</span> %"new::Array", <span class="ansi-bright-magenta-fg">ptr</span> %gc_slot_addr_0, <span class="ansi-bright-magenta-fg">align</span> <span class="ansi-yellow-fg">8</span>
-  %1 = <span class="ansi-bright-cyan-fg ansi-bold">call</span> <span class="ansi-cyan-fg">i64</span> <span class="ansi-bright-yellow-fg">@j_get_len_6481</span><span class="ansi-yellow-fg">(</span><span class="ansi-bright-magenta-fg">ptr</span> <span class="ansi-bright-magenta-fg">nonnull</span> %"new::Array"<span class="ansi-yellow-fg">)</span>
+  %1 = <span class="ansi-bright-cyan-fg ansi-bold">call</span> <span class="ansi-cyan-fg">i64</span> <span class="ansi-bright-yellow-fg">@j_get_len_7239</span><span class="ansi-yellow-fg">(</span><span class="ansi-bright-magenta-fg">ptr</span> <span class="ansi-bright-magenta-fg">nonnull</span> %"new::Array"<span class="ansi-yellow-fg">)</span>
   %frame.prev14 = <span class="ansi-bright-cyan-fg ansi-bold">load</span> <span class="ansi-bright-magenta-fg">ptr</span>, <span class="ansi-bright-magenta-fg">ptr</span> %frame.prev, <span class="ansi-bright-magenta-fg">align</span> <span class="ansi-yellow-fg">8</span>
   <span class="ansi-bright-cyan-fg ansi-bold">store</span> <span class="ansi-bright-magenta-fg">ptr</span> %frame.prev14, <span class="ansi-bright-magenta-fg">ptr</span> %tls_pgcstack, <span class="ansi-bright-magenta-fg">align</span> <span class="ansi-yellow-fg">8</span>
   <span class="ansi-bright-cyan-fg ansi-bold">ret</span> <span class="ansi-cyan-fg">i64</span> %1
@@ -421,7 +427,7 @@ Neven Sajko
 <div class="cell-output cell-output-stdout">
 <div class="ansi-escaped-output">
 <pre><span class="ansi-bright-white-fg">; Function Signature: var"#5"()</span>
-<span class="ansi-bright-magenta-fg">define</span> <span class="ansi-cyan-fg">i64</span> <span class="ansi-bright-yellow-fg">@"julia_#5_6545"</span><span class="ansi-yellow-fg">(</span><span class="ansi-yellow-fg">)</span> <span class="ansi-bright-magenta-fg">local_unnamed_addr</span> #0 <span class="ansi-yellow-fg">{</span>
+<span class="ansi-bright-magenta-fg">define</span> <span class="ansi-cyan-fg">i64</span> <span class="ansi-bright-yellow-fg">@"julia_#5_7303"</span><span class="ansi-yellow-fg">(</span><span class="ansi-yellow-fg">)</span> <span class="ansi-bright-magenta-fg">local_unnamed_addr</span> #0 <span class="ansi-yellow-fg">{</span>
 <span class="ansi-bright-red-fg">top:</span>
   <span class="ansi-bright-cyan-fg ansi-bold">ret</span> <span class="ansi-cyan-fg">i64</span> <span class="ansi-yellow-fg">3</span>
 <span class="ansi-yellow-fg">}</span>
@@ -517,8 +523,12 @@ Neven Sajko
 <section class="title-slide slide level1 center">
 <h1>Conclusions</h1>
 <ul>
-<li>Future improvements…</li>
-<li>…</li>
+<li>Future improvements
+<ul>
+<li>Missing pieces of interface?</li>
+<li>More compiler analysis (inter-procedural escape analysis)</li>
+</ul></li>
+<li>I really wish Base had separate Array and List</li>
 </ul>
 <!-- Local Variables: -->
 <!-- mode: markdown -->
