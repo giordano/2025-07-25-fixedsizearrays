@@ -23,6 +23,8 @@ format:
     transition: fade
 date: 2025-07-25
 engine: julia
+julia:
+    exeflags: ["+nightly"]
 ---
 
 {{< include qr-code.qmd >}}
@@ -31,7 +33,10 @@ engine: julia
 
 ## Motivation
 
-...
+* Memory is great, but 1D
+* Mathy Arrays don't change size
+* Mutability is hard to reason about
+* Extra allocations
 
 ## Implementation
 
@@ -39,9 +44,10 @@ engine: julia
 struct FixedSizeArray{T,N,Mem<:DenseVector{T}} <: DenseArray{T,N}
     mem::Mem
     size::NTuple{N,Int}
-    global function new_fixed_size_array(mem::DenseVector{T}, size::NTuple{N,Int}) where {T,N}
-        new{T,N,typeof(mem)}(mem, size)
-    end
+end
+
+function new_fixed_size_array(mem::DenseVector{T}, size::NTuple{N,Int}) where {T,N}
+    new{T,N,typeof(mem)}(mem, size)
 end
 ```
 
@@ -172,8 +178,10 @@ julia> @btime gradient(Forward, g, x, y) setup=(x = FixedSizeArray(randn(3)); y 
 
 # Conclusions
 
-* Future improvements...
-* ...
+* Future improvements
+    * Missing pieces of interface?
+    * More compiler analysis (inter-procedural escape analysis)
+* I really wish Base had separate Array and List
 
 <!-- Local Variables: -->
 <!-- mode: markdown -->
