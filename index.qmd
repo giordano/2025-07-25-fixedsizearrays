@@ -23,6 +23,8 @@ format:
     transition: fade
 date: 2025-07-25
 engine: julia
+julia:
+    exeflags: ["+nightly"]
 ---
 
 {{< include qr-code.qmd >}}
