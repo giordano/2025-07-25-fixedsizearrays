@@ -63,7 +63,7 @@ end
 | `MArray`         | compile time   | `Tuple`      | ❌       | ✅               |
 | `SArray`         | compile time   | `Tuple`      | ❌       | ❌               |
 
-# Show off
+# Showcase
 
 ## Fewer allocations
 
