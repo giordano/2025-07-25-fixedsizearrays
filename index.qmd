@@ -27,8 +27,6 @@ julia:
     exeflags: ["+nightly"]
 ---
 
-{{< include qr-code.qmd >}}
-
 # Introduction
 
 ## Motivation
