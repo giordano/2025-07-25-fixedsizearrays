@@ -31,7 +31,7 @@ julia:
 
 ## Motivation
 
-* Memory is great, but 1D
+* `Memory` is great, but 1D
 * Mathy Arrays don't change size
 * Mutability is hard to reason about
 * Extra allocations
@@ -179,7 +179,7 @@ julia> @btime gradient(Forward, g, x, y) setup=(x = FixedSizeArray(randn(3)); y 
 * Future improvements
     * Missing pieces of interface?
     * More compiler analysis (inter-procedural escape analysis)
-* I really wish Base had separate Array and List
+* I really wish `Base` had separate `Array` and `List`
 
 <!-- Local Variables: -->
 <!-- mode: markdown -->
