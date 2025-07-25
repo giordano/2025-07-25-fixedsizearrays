@@ -49,11 +49,6 @@ function new_fixed_size_array(mem::DenseVector{T}, size::NTuple{N,Int}) where {T
 end
 ```
 
-## ...
-
-...
-
-
 ## Comparison with other array types
 
 |                  | Size set at... | Data backend | Growable | Mutable elements |
