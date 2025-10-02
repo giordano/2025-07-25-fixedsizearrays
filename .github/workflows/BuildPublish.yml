@@ -15,6 +15,7 @@ on:
       - 'Project.toml'
       - 'custom.scss'
       - 'index.qmd'
+  workflow_dispatch:
 
 concurrency:
   # Skip intermediate builds: all builds except for builds on the `main` branch
