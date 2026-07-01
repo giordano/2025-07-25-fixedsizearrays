@@ -6,8 +6,8 @@
 <script src="index_files/libs/quarto-html/tippy.umd.min.js"></script>
 <link href="index_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="index_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="index_files/libs/quarto-html/quarto-syntax-highlighting-dark-b651517ce65839d647a86e2780455cfb.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.8.24">
+<link href="index_files/libs/quarto-html/quarto-syntax-highlighting-dark-0a6b7249c26820e032cb0bd839ff02b1.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.9.38">
 
   <meta name="author" content="Mosè Giordano">
   <meta name="author" content="Oscar Smith">
@@ -20,6 +20,9 @@
   <link rel="stylesheet" href="index_files/libs/revealjs/dist/reset.css">
   <link rel="stylesheet" href="index_files/libs/revealjs/dist/reveal.css">
   <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
     div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -98,7 +101,7 @@
     code span.vs { color: #abe338; } /* VerbatimString */
     code span.wa { color: #dcc6e0; } /* Warning */
   </style>
-  <link rel="stylesheet" href="index_files/libs/revealjs/dist/theme/quarto-c1755b69b44de18210d653d337689a2b.css">
+  <link rel="stylesheet" href="index_files/libs/revealjs/dist/theme/quarto-f57ce7b4b43e5af38cd26e810f58fd6c.css">
   <link href="index_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="index_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="index_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -319,17 +322,17 @@ Neven Sajko
 <div class="cell-output cell-output-stdout">
 <div class="ansi-escaped-output">
 <pre><span class="ansi-cyan-fg ansi-bold">[ </span><span class="ansi-cyan-fg ansi-bold">Info: </span>n = 0
-  8.063 ns (1 allocation: 32 bytes)
+  8.053 ns (1 allocation: 32 bytes)
   3.716 ns (0 allocations: 0 bytes)
 <span class="ansi-cyan-fg ansi-bold">[ </span><span class="ansi-cyan-fg ansi-bold">Info: </span>n = 1
-  16.514 ns (2 allocations: 64 bytes)
-  13.302 ns (1 allocation: 32 bytes)
+  16.202 ns (2 allocations: 64 bytes)
+  12.696 ns (1 allocation: 32 bytes)
 <span class="ansi-cyan-fg ansi-bold">[ </span><span class="ansi-cyan-fg ansi-bold">Info: </span>n = 32
-  18.811 ns (2 allocations: 320 bytes)
-  14.696 ns (1 allocation: 288 bytes)
+  18.311 ns (2 allocations: 320 bytes)
+  14.194 ns (1 allocation: 288 bytes)
 <span class="ansi-cyan-fg ansi-bold">[ </span><span class="ansi-cyan-fg ansi-bold">Info: </span>n = 1024
-  381.799 ns (3 allocations: 8.07 KiB)
-  378.843 ns (2 allocations: 8.04 KiB)
+  396.440 ns (3 allocations: 8.07 KiB)
+  389.000 ns (2 allocations: 8.04 KiB)
 </pre>
 </div>
 </div>
@@ -349,7 +352,8 @@ Neven Sajko
 <span class="ansi-bright-magenta-fg">define</span> <span class="ansi-cyan-fg">i64</span> <span class="ansi-bright-yellow-fg">@"julia_#2_0"</span><span class="ansi-yellow-fg">(</span><span class="ansi-yellow-fg">)</span> <span class="ansi-bright-magenta-fg">local_unnamed_addr</span> #0 <span class="ansi-yellow-fg">{</span>
 <span class="ansi-bright-red-fg">top:</span>
   %gcframe1 = <span class="ansi-bright-cyan-fg ansi-bold">alloca</span> <span class="ansi-yellow-fg">[</span><span class="ansi-yellow-fg">3</span> x <span class="ansi-bright-magenta-fg">ptr</span><span class="ansi-yellow-fg">]</span>, <span class="ansi-bright-magenta-fg">align</span> <span class="ansi-yellow-fg">16</span>
-  <span class="ansi-bright-cyan-fg ansi-bold">call</span> <span class="ansi-cyan-fg">void</span> <span class="ansi-bright-yellow-fg">@llvm.memset.p0.i64</span><span class="ansi-yellow-fg">(</span><span class="ansi-bright-magenta-fg">ptr</span> <span class="ansi-bright-magenta-fg">align</span> <span class="ansi-yellow-fg">16</span> %gcframe1, <span class="ansi-cyan-fg">i8</span> <span class="ansi-yellow-fg">0</span>, <span class="ansi-cyan-fg">i64</span> <span class="ansi-yellow-fg">24</span>, <span class="ansi-cyan-fg">i1</span> <span class="ansi-bright-magenta-fg">true</span><span class="ansi-yellow-fg">)</span>
+  %0 = <span class="ansi-bright-cyan-fg ansi-bold">getelementptr</span> <span class="ansi-bright-magenta-fg">inbounds</span> <span class="ansi-bright-magenta-fg">nuw</span> <span class="ansi-cyan-fg">i8</span>, <span class="ansi-bright-magenta-fg">ptr</span> %gcframe1, <span class="ansi-cyan-fg">i64</span> <span class="ansi-yellow-fg">16</span>
+  <span class="ansi-bright-cyan-fg ansi-bold">store</span> <span class="ansi-cyan-fg">i64</span> <span class="ansi-yellow-fg">0</span>, <span class="ansi-bright-magenta-fg">ptr</span> %0, <span class="ansi-bright-magenta-fg">align</span> <span class="ansi-yellow-fg">16</span>
   %thread_ptr = <span class="ansi-bright-magenta-fg">call</span> <span class="ansi-bright-magenta-fg">ptr</span> <span class="ansi-bright-magenta-fg">asm</span> "movq %fs:0, $0", "=r"<span class="ansi-yellow-fg">(</span><span class="ansi-yellow-fg">)</span> #11
   %tls_ppgcstack = <span class="ansi-bright-cyan-fg ansi-bold">getelementptr</span> <span class="ansi-bright-magenta-fg">inbounds</span> <span class="ansi-cyan-fg">i8</span>, <span class="ansi-bright-magenta-fg">ptr</span> %thread_ptr, <span class="ansi-cyan-fg">i64</span> <span class="ansi-yellow-fg">-8</span>
   %tls_pgcstack = <span class="ansi-bright-cyan-fg ansi-bold">load</span> <span class="ansi-bright-magenta-fg">ptr</span>, <span class="ansi-bright-magenta-fg">ptr</span> %tls_ppgcstack, <span class="ansi-bright-magenta-fg">align</span> <span class="ansi-yellow-fg">8</span>
@@ -361,8 +365,8 @@ Neven Sajko
   %"+Core.GenericMemory#0" = <span class="ansi-bright-cyan-fg ansi-bold">load</span> <span class="ansi-bright-magenta-fg">ptr</span>, <span class="ansi-bright-magenta-fg">ptr</span> <span class="ansi-bright-yellow-fg">@"+Core.GenericMemory#0"</span>, <span class="ansi-bright-magenta-fg">align</span> <span class="ansi-yellow-fg">8</span>
   %ptls_field = <span class="ansi-bright-cyan-fg ansi-bold">getelementptr</span> <span class="ansi-bright-magenta-fg">inbounds</span> <span class="ansi-bright-magenta-fg">nuw</span> <span class="ansi-cyan-fg">i8</span>, <span class="ansi-bright-magenta-fg">ptr</span> %tls_pgcstack, <span class="ansi-cyan-fg">i64</span> <span class="ansi-yellow-fg">16</span>
   %ptls_load = <span class="ansi-bright-cyan-fg ansi-bold">load</span> <span class="ansi-bright-magenta-fg">ptr</span>, <span class="ansi-bright-magenta-fg">ptr</span> %ptls_field, <span class="ansi-bright-magenta-fg">align</span> <span class="ansi-yellow-fg">8</span>
-  %0 = <span class="ansi-bright-cyan-fg ansi-bold">ptrtoint</span> <span class="ansi-bright-magenta-fg">ptr</span> %"+Core.GenericMemory#0" <span class="ansi-bright-magenta-fg">to</span> <span class="ansi-cyan-fg">i64</span>
-  %"Memory{Float64}[]" = <span class="ansi-bright-cyan-fg ansi-bold">call</span> <span class="ansi-bright-magenta-fg">noalias</span> <span class="ansi-bright-magenta-fg">nonnull</span> <span class="ansi-bright-magenta-fg">align</span> <span class="ansi-yellow-fg">8</span> <span class="ansi-bright-magenta-fg">dereferenceable</span><span class="ansi-yellow-fg">(</span><span class="ansi-yellow-fg">48</span><span class="ansi-yellow-fg">)</span> <span class="ansi-bright-magenta-fg">ptr</span> <span class="ansi-bright-yellow-fg">@ijl_gc_small_alloc</span><span class="ansi-yellow-fg">(</span><span class="ansi-bright-magenta-fg">ptr</span> %ptls_load, <span class="ansi-cyan-fg">i32</span> <span class="ansi-yellow-fg">456</span>, <span class="ansi-cyan-fg">i32</span> <span class="ansi-yellow-fg">48</span>, <span class="ansi-cyan-fg">i64</span> %0<span class="ansi-yellow-fg">)</span> #7
+  %1 = <span class="ansi-bright-cyan-fg ansi-bold">ptrtoint</span> <span class="ansi-bright-magenta-fg">ptr</span> %"+Core.GenericMemory#0" <span class="ansi-bright-magenta-fg">to</span> <span class="ansi-cyan-fg">i64</span>
+  %"Memory{Float64}[]" = <span class="ansi-bright-cyan-fg ansi-bold">call</span> <span class="ansi-bright-magenta-fg">noalias</span> <span class="ansi-bright-magenta-fg">nonnull</span> <span class="ansi-bright-magenta-fg">align</span> <span class="ansi-yellow-fg">8</span> <span class="ansi-bright-magenta-fg">dereferenceable</span><span class="ansi-yellow-fg">(</span><span class="ansi-yellow-fg">48</span><span class="ansi-yellow-fg">)</span> <span class="ansi-bright-magenta-fg">ptr</span> <span class="ansi-bright-yellow-fg">@ijl_gc_small_alloc</span><span class="ansi-yellow-fg">(</span><span class="ansi-bright-magenta-fg">ptr</span> %ptls_load, <span class="ansi-cyan-fg">i32</span> <span class="ansi-yellow-fg">456</span>, <span class="ansi-cyan-fg">i32</span> <span class="ansi-yellow-fg">48</span>, <span class="ansi-cyan-fg">i64</span> %1<span class="ansi-yellow-fg">)</span> #7
   %"Memory{Float64}[].tag_addr" = <span class="ansi-bright-cyan-fg ansi-bold">getelementptr</span> <span class="ansi-bright-magenta-fg">inbounds</span> <span class="ansi-cyan-fg">i8</span>, <span class="ansi-bright-magenta-fg">ptr</span> %"Memory<span class="ansi-yellow-fg">{</span>Float64<span class="ansi-yellow-fg">}</span><span class="ansi-yellow-fg">[</span><span class="ansi-yellow-fg">]</span>", <span class="ansi-cyan-fg">i64</span> <span class="ansi-yellow-fg">-8</span>
   <span class="ansi-bright-cyan-fg ansi-bold">store</span> <span class="ansi-bright-magenta-fg">atomic</span> <span class="ansi-bright-magenta-fg">ptr</span> %"+Core.GenericMemory#0", <span class="ansi-bright-magenta-fg">ptr</span> %"Memory<span class="ansi-yellow-fg">{</span>Float64<span class="ansi-yellow-fg">}</span><span class="ansi-yellow-fg">[</span><span class="ansi-yellow-fg">]</span>.tag_addr" <span class="ansi-bright-magenta-fg">unordered</span>, <span class="ansi-bright-magenta-fg">align</span> <span class="ansi-yellow-fg">8</span>
   %memory_ptr = <span class="ansi-bright-cyan-fg ansi-bold">getelementptr</span> <span class="ansi-bright-magenta-fg">inbounds</span> <span class="ansi-bright-magenta-fg">nuw</span> <span class="ansi-cyan-fg">i8</span>, <span class="ansi-bright-magenta-fg">ptr</span> %"Memory<span class="ansi-yellow-fg">{</span>Float64<span class="ansi-yellow-fg">}</span><span class="ansi-yellow-fg">[</span><span class="ansi-yellow-fg">]</span>", <span class="ansi-cyan-fg">i64</span> <span class="ansi-yellow-fg">8</span>
@@ -370,11 +374,9 @@ Neven Sajko
   <span class="ansi-bright-cyan-fg ansi-bold">store</span> <span class="ansi-bright-magenta-fg">ptr</span> %memory_data, <span class="ansi-bright-magenta-fg">ptr</span> %memory_ptr, <span class="ansi-bright-magenta-fg">align</span> <span class="ansi-yellow-fg">8</span>
   <span class="ansi-bright-cyan-fg ansi-bold">store</span> <span class="ansi-cyan-fg">i64</span> <span class="ansi-yellow-fg">3</span>, <span class="ansi-bright-magenta-fg">ptr</span> %"Memory<span class="ansi-yellow-fg">{</span>Float64<span class="ansi-yellow-fg">}</span><span class="ansi-yellow-fg">[</span><span class="ansi-yellow-fg">]</span>", <span class="ansi-bright-magenta-fg">align</span> <span class="ansi-yellow-fg">8</span>
   %"+Core.Array#0" = <span class="ansi-bright-cyan-fg ansi-bold">load</span> <span class="ansi-bright-magenta-fg">ptr</span>, <span class="ansi-bright-magenta-fg">ptr</span> <span class="ansi-bright-yellow-fg">@"+Core.Array#0"</span>, <span class="ansi-bright-magenta-fg">align</span> <span class="ansi-yellow-fg">8</span>
-  %gc_slot_addr_0 = <span class="ansi-bright-cyan-fg ansi-bold">getelementptr</span> <span class="ansi-bright-magenta-fg">inbounds</span> <span class="ansi-bright-magenta-fg">nuw</span> <span class="ansi-cyan-fg">i8</span>, <span class="ansi-bright-magenta-fg">ptr</span> %gcframe1, <span class="ansi-cyan-fg">i64</span> <span class="ansi-yellow-fg">16</span>
-  <span class="ansi-bright-cyan-fg ansi-bold">store</span> <span class="ansi-bright-magenta-fg">ptr</span> %"Memory<span class="ansi-yellow-fg">{</span>Float64<span class="ansi-yellow-fg">}</span><span class="ansi-yellow-fg">[</span><span class="ansi-yellow-fg">]</span>", <span class="ansi-bright-magenta-fg">ptr</span> %gc_slot_addr_0, <span class="ansi-bright-magenta-fg">align</span> <span class="ansi-yellow-fg">8</span>
-  %ptls_load11 = <span class="ansi-bright-cyan-fg ansi-bold">load</span> <span class="ansi-bright-magenta-fg">ptr</span>, <span class="ansi-bright-magenta-fg">ptr</span> %ptls_field, <span class="ansi-bright-magenta-fg">align</span> <span class="ansi-yellow-fg">8</span>
-  %1 = <span class="ansi-bright-cyan-fg ansi-bold">ptrtoint</span> <span class="ansi-bright-magenta-fg">ptr</span> %"+Core.Array#0" <span class="ansi-bright-magenta-fg">to</span> <span class="ansi-cyan-fg">i64</span>
-  %"new::Array" = <span class="ansi-bright-cyan-fg ansi-bold">call</span> <span class="ansi-bright-magenta-fg">noalias</span> <span class="ansi-bright-magenta-fg">nonnull</span> <span class="ansi-bright-magenta-fg">align</span> <span class="ansi-yellow-fg">8</span> <span class="ansi-bright-magenta-fg">dereferenceable</span><span class="ansi-yellow-fg">(</span><span class="ansi-yellow-fg">32</span><span class="ansi-yellow-fg">)</span> <span class="ansi-bright-magenta-fg">ptr</span> <span class="ansi-bright-yellow-fg">@ijl_gc_small_alloc</span><span class="ansi-yellow-fg">(</span><span class="ansi-bright-magenta-fg">ptr</span> %ptls_load11, <span class="ansi-cyan-fg">i32</span> <span class="ansi-yellow-fg">408</span>, <span class="ansi-cyan-fg">i32</span> <span class="ansi-yellow-fg">32</span>, <span class="ansi-cyan-fg">i64</span> %1<span class="ansi-yellow-fg">)</span> #7
+  <span class="ansi-bright-cyan-fg ansi-bold">store</span> <span class="ansi-bright-magenta-fg">ptr</span> %"Memory<span class="ansi-yellow-fg">{</span>Float64<span class="ansi-yellow-fg">}</span><span class="ansi-yellow-fg">[</span><span class="ansi-yellow-fg">]</span>", <span class="ansi-bright-magenta-fg">ptr</span> %0, <span class="ansi-bright-magenta-fg">align</span> <span class="ansi-yellow-fg">8</span>
+  %2 = <span class="ansi-bright-cyan-fg ansi-bold">ptrtoint</span> <span class="ansi-bright-magenta-fg">ptr</span> %"+Core.Array#0" <span class="ansi-bright-magenta-fg">to</span> <span class="ansi-cyan-fg">i64</span>
+  %"new::Array" = <span class="ansi-bright-cyan-fg ansi-bold">call</span> <span class="ansi-bright-magenta-fg">noalias</span> <span class="ansi-bright-magenta-fg">nonnull</span> <span class="ansi-bright-magenta-fg">align</span> <span class="ansi-yellow-fg">8</span> <span class="ansi-bright-magenta-fg">dereferenceable</span><span class="ansi-yellow-fg">(</span><span class="ansi-yellow-fg">32</span><span class="ansi-yellow-fg">)</span> <span class="ansi-bright-magenta-fg">ptr</span> <span class="ansi-bright-yellow-fg">@ijl_gc_small_alloc</span><span class="ansi-yellow-fg">(</span><span class="ansi-bright-magenta-fg">ptr</span> %ptls_load, <span class="ansi-cyan-fg">i32</span> <span class="ansi-yellow-fg">408</span>, <span class="ansi-cyan-fg">i32</span> <span class="ansi-yellow-fg">32</span>, <span class="ansi-cyan-fg">i64</span> %2<span class="ansi-yellow-fg">)</span> #7
   %"new::Array.tag_addr" = <span class="ansi-bright-cyan-fg ansi-bold">getelementptr</span> <span class="ansi-bright-magenta-fg">inbounds</span> <span class="ansi-cyan-fg">i8</span>, <span class="ansi-bright-magenta-fg">ptr</span> %"new::Array", <span class="ansi-cyan-fg">i64</span> <span class="ansi-yellow-fg">-8</span>
   <span class="ansi-bright-cyan-fg ansi-bold">store</span> <span class="ansi-bright-magenta-fg">atomic</span> <span class="ansi-bright-magenta-fg">ptr</span> %"+Core.Array#0", <span class="ansi-bright-magenta-fg">ptr</span> %"new::Array.tag_addr" <span class="ansi-bright-magenta-fg">unordered</span>, <span class="ansi-bright-magenta-fg">align</span> <span class="ansi-yellow-fg">8</span>
   <span class="ansi-bright-cyan-fg ansi-bold">store</span> <span class="ansi-bright-magenta-fg">ptr</span> %memory_data, <span class="ansi-bright-magenta-fg">ptr</span> %"new::Array", <span class="ansi-bright-magenta-fg">align</span> <span class="ansi-yellow-fg">8</span>
@@ -382,11 +384,11 @@ Neven Sajko
   <span class="ansi-bright-cyan-fg ansi-bold">store</span> <span class="ansi-bright-magenta-fg">ptr</span> %"Memory<span class="ansi-yellow-fg">{</span>Float64<span class="ansi-yellow-fg">}</span><span class="ansi-yellow-fg">[</span><span class="ansi-yellow-fg">]</span>", <span class="ansi-bright-magenta-fg">ptr</span> %.repack3, <span class="ansi-bright-magenta-fg">align</span> <span class="ansi-yellow-fg">8</span>
   %"new::Array.size_ptr" = <span class="ansi-bright-cyan-fg ansi-bold">getelementptr</span> <span class="ansi-bright-magenta-fg">inbounds</span> <span class="ansi-bright-magenta-fg">nuw</span> <span class="ansi-cyan-fg">i8</span>, <span class="ansi-bright-magenta-fg">ptr</span> %"new::Array", <span class="ansi-cyan-fg">i64</span> <span class="ansi-yellow-fg">16</span>
   <span class="ansi-bright-cyan-fg ansi-bold">store</span> <span class="ansi-cyan-fg">i64</span> <span class="ansi-yellow-fg">3</span>, <span class="ansi-bright-magenta-fg">ptr</span> %"new::Array.size_ptr", <span class="ansi-bright-magenta-fg">align</span> <span class="ansi-yellow-fg">8</span>
-  <span class="ansi-bright-cyan-fg ansi-bold">store</span> <span class="ansi-bright-magenta-fg">ptr</span> %"new::Array", <span class="ansi-bright-magenta-fg">ptr</span> %gc_slot_addr_0, <span class="ansi-bright-magenta-fg">align</span> <span class="ansi-yellow-fg">8</span>
-  %2 = <span class="ansi-bright-cyan-fg ansi-bold">call</span> <span class="ansi-cyan-fg">i64</span> <span class="ansi-bright-yellow-fg">@j_get_len_0</span><span class="ansi-yellow-fg">(</span><span class="ansi-bright-magenta-fg">ptr</span> <span class="ansi-bright-magenta-fg">nonnull</span> %"new::Array"<span class="ansi-yellow-fg">)</span>
+  <span class="ansi-bright-cyan-fg ansi-bold">store</span> <span class="ansi-bright-magenta-fg">ptr</span> %"new::Array", <span class="ansi-bright-magenta-fg">ptr</span> %0, <span class="ansi-bright-magenta-fg">align</span> <span class="ansi-yellow-fg">8</span>
+  %3 = <span class="ansi-bright-cyan-fg ansi-bold">call</span> <span class="ansi-cyan-fg">i64</span> <span class="ansi-bright-yellow-fg">@j_get_len_0</span><span class="ansi-yellow-fg">(</span><span class="ansi-bright-magenta-fg">ptr</span> <span class="ansi-bright-magenta-fg">nonnull</span> %"new::Array"<span class="ansi-yellow-fg">)</span> #12
   %frame.prev14 = <span class="ansi-bright-cyan-fg ansi-bold">load</span> <span class="ansi-bright-magenta-fg">ptr</span>, <span class="ansi-bright-magenta-fg">ptr</span> %frame.prev, <span class="ansi-bright-magenta-fg">align</span> <span class="ansi-yellow-fg">8</span>
   <span class="ansi-bright-cyan-fg ansi-bold">store</span> <span class="ansi-bright-magenta-fg">ptr</span> %frame.prev14, <span class="ansi-bright-magenta-fg">ptr</span> %tls_pgcstack, <span class="ansi-bright-magenta-fg">align</span> <span class="ansi-yellow-fg">8</span>
-  <span class="ansi-bright-cyan-fg ansi-bold">ret</span> <span class="ansi-cyan-fg">i64</span> %2
+  <span class="ansi-bright-cyan-fg ansi-bold">ret</span> <span class="ansi-cyan-fg">i64</span> %3
 <span class="ansi-yellow-fg">}</span>
 </pre>
 </div>
@@ -466,7 +468,7 @@ Neven Sajko
 <div class="cell-output cell-output-stdout">
 <div class="ansi-escaped-output">
 <pre><span class="ansi-cyan-fg ansi-bold">┌ </span><span class="ansi-cyan-fg ansi-bold">Info: </span>Vector
-<span class="ansi-cyan-fg ansi-bold">└ </span>  allocations = 2064
+<span class="ansi-cyan-fg ansi-bold">└ </span>  allocations = 0
 <span class="ansi-cyan-fg ansi-bold">┌ </span><span class="ansi-cyan-fg ansi-bold">Info: </span>FixedSizeVector
 <span class="ansi-cyan-fg ansi-bold">└ </span>  allocations = 0
 </pre>
