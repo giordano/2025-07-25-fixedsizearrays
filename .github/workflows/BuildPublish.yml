@@ -35,7 +35,7 @@ jobs:
     steps:
     - uses: actions/checkout@v7
 
-    - uses: julia-actions/install-juliaup@v3
+    - uses: julia-actions/install-juliaup@v3.1.4
       with:
         channel: 'nightly'
 
