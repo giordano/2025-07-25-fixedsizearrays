@@ -24,7 +24,7 @@ format:
 date: 2025-07-25
 engine: julia
 julia:
-    exeflags: ["+nightly"]
+    exeflags: ["+1.13"]
 ---
 
 # Introduction

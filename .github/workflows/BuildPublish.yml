@@ -37,7 +37,7 @@ jobs:
 
     - uses: julia-actions/install-juliaup@v3.1.4
       with:
-        channel: 'nightly'
+        channel: '1.13'
 
     - name: Load Julia packages from cache
       id: julia-cache
